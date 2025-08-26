@@ -1,401 +1,1098 @@
-// DOM Elements
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
-const navLinks = document.querySelectorAll('.nav-link');
-const backToTop = document.getElementById('backToTop');
-const header = document.querySelector('.header');
-const tabBtns = document.querySelectorAll('.tab-btn');
-const searchBoxes = document.querySelectorAll('.search-box');
-
-// Mobile Menu Toggle
-if (hamburger) {
-    hamburger.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        
-        // Animate hamburger
-        const spans = hamburger.querySelectorAll('span');
-        if (navMenu.classList.contains('active')) {
-            spans[0].style.transform = 'rotate(45deg) translateY(8px)';
-            spans[1].style.opacity = '0';
-            spans[2].style.transform = 'rotate(-45deg) translateY(-8px)';
-        } else {
-            spans[0].style.transform = 'none';
-            spans[1].style.opacity = '1';
-            spans[2].style.transform = 'none';
-        }
-    });
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-// Close mobile menu when clicking nav links
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        if (hamburger) {
-            const spans = hamburger.querySelectorAll('span');
-            spans[0].style.transform = 'none';
-            spans[1].style.opacity = '1';
-            spans[2].style.transform = 'none';
-        }
-    });
-});
+:root {
+    --primary-gold: #D4AF37;
+    --primary-brown: #8B4513;
+    --dark-brown: #654321;
+    --light-gold: #F4E4C1;
+    --light-brown: #A0826D;
+    --text-dark: #2C2C2C;
+    --text-gray: #6B6B6B;
+    --bg-light: #FFF8F0;
+    --bg-gray: #F5F5F5;
+    --white: #FFFFFF;
+    --shadow: 0 2px 10px rgba(0,0,0,0.1);
+    --shadow-hover: 0 5px 20px rgba(0,0,0,0.15);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-// Active navigation link based on scroll
-window.addEventListener('scroll', () => {
-    let current = '';
-    const sections = document.querySelectorAll('section[id]');
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (scrollY >= (sectionTop - 200)) {
-            current = section.getAttribute('id');
-        }
-    });
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background: var(--white);
+    overflow-x: hidden;
+}
 
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').slice(1) === current) {
-            link.classList.add('active');
-        }
-    });
-});
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
-// Header scroll effect
-let lastScroll = 0;
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll > 100) {
-        header.style.background = 'rgba(255, 255, 255, 0.98)';
-        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
-    } else {
-        header.style.background = 'rgba(255, 255, 255, 0.95)';
-        header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+/* Header & Navigation */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.navbar {
+    padding: 0.5rem 0;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-main {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-brown));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo-sub {
+    font-size: 0.75rem;
+    color: var(--text-gray);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    position: relative;
+    transition: var(--transition);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-gold);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-gold), var(--primary-brown));
+    transition: var(--transition);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-hotline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-brown));
+    color: var(--white);
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-hotline:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 100%;
+    height: 3px;
+    background: var(--primary-brown);
+    border-radius: 3px;
+    transition: var(--transition);
+}
+
+/* Hero Section */
+.hero {
+    margin-top: 80px;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    position: relative;
+    background: linear-gradient(135deg, var(--light-gold) 0%, var(--bg-light) 100%);
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.cloud {
+    position: absolute;
+    background: var(--white);
+    border-radius: 100px;
+    opacity: 0.4;
+}
+
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: var(--white);
+    border-radius: 100px;
+}
+
+.cloud1 {
+    width: 100px;
+    height: 40px;
+    top: 20%;
+    left: 10%;
+    animation: float 20s infinite;
+}
+
+.cloud1::before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 10px;
+}
+
+.cloud1::after {
+    width: 60px;
+    height: 40px;
+    top: -15px;
+    right: 10px;
+}
+
+.cloud2 {
+    width: 80px;
+    height: 35px;
+    top: 40%;
+    right: 20%;
+    animation: float 25s infinite reverse;
+}
+
+.cloud3 {
+    width: 120px;
+    height: 45px;
+    bottom: 30%;
+    left: 30%;
+    animation: float 30s infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(20px) translateY(-10px); }
+    50% { transform: translateX(-10px) translateY(5px); }
+    75% { transform: translateX(15px) translateY(-5px); }
+}
+
+.plane-animation {
+    position: absolute;
+    top: 30%;
+    width: 100%;
+    height: 100px;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 20px;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.8s ease;
+}
+
+.title-line1 {
+    display: block;
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-brown));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.title-line2 {
+    display: block;
+    color: var(--dark-brown);
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    color: var(--text-gray);
+    margin-bottom: 3rem;
+    animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
-    
-    // Show/hide back to top button
-    if (currentScroll > 500) {
-        backToTop.classList.add('show');
-    } else {
-        backToTop.classList.remove('show');
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-    
-    lastScroll = currentScroll;
-});
-
-// Back to top functionality
-if (backToTop) {
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
 }
 
-// Smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Search tabs functionality
-tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const tabName = btn.getAttribute('data-tab');
-        
-        // Remove active class from all tabs and boxes
-        tabBtns.forEach(b => b.classList.remove('active'));
-        searchBoxes.forEach(box => box.classList.remove('active'));
-        
-        // Add active class to clicked tab
-        btn.classList.add('active');
-        
-        // Show corresponding search box
-        const targetBox = document.getElementById(`${tabName}-search`);
-        if (targetBox) {
-            targetBox.classList.add('active');
-        }
-    });
-});
-
-// Swap button functionality
-const swapBtn = document.querySelector('.swap-btn');
-if (swapBtn) {
-    swapBtn.addEventListener('click', () => {
-        const inputs = document.querySelectorAll('.search-input');
-        if (inputs.length >= 2) {
-            const temp = inputs[0].value;
-            inputs[0].value = inputs[1].value;
-            inputs[1].value = temp;
-        }
-    });
+/* Search Container */
+.search-container {
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    padding: 0;
+    animation: fadeInUp 0.8s ease 0.4s both;
 }
 
-// Date input min value (today)
-const dateInputs = document.querySelectorAll('input[type="date"]');
-const today = new Date().toISOString().split('T')[0];
-dateInputs.forEach(input => {
-    input.min = today;
-});
-
-// Counter animation for statistics
-const animateCounter = (element) => {
-    const target = parseInt(element.getAttribute('data-target'));
-    const duration = 2000; // 2 seconds
-    const step = target / (duration / 16); // 60fps
-    let current = 0;
-    
-    const updateCounter = () => {
-        current += step;
-        if (current < target) {
-            element.textContent = Math.floor(current).toLocaleString();
-            requestAnimationFrame(updateCounter);
-        } else {
-            element.textContent = target.toLocaleString();
-            if (element.textContent.includes('98')) {
-                element.textContent += '%';
-            } else if (element.textContent.includes('500') || element.textContent.includes('1000')) {
-                element.textContent += '+';
-            }
-        }
-    };
-    
-    updateCounter();
-};
-
-// Intersection Observer for counter animation
-const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
-            entry.target.classList.add('animated');
-            animateCounter(entry.target);
-        }
-    });
-}, { threshold: 0.5 });
-
-// Observe all stat numbers
-document.querySelectorAll('.stat-number').forEach(stat => {
-    counterObserver.observe(stat);
-});
-
-// Form validation and submission
-const contactForm = document.querySelector('.contact-form form');
-if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(contactForm);
-        const data = Object.fromEntries(formData);
-        
-        // Simple validation
-        let isValid = true;
-        const inputs = contactForm.querySelectorAll('input[required], textarea[required]');
-        
-        inputs.forEach(input => {
-            if (!input.value.trim()) {
-                isValid = false;
-                input.style.borderColor = '#ff4444';
-                setTimeout(() => {
-                    input.style.borderColor = '';
-                }, 3000);
-            }
-        });
-        
-        if (isValid) {
-            // Show success message
-            const submitBtn = contactForm.querySelector('.submit-btn');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '✓ Đã gửi thành công!';
-            submitBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
-            
-            // Reset form
-            setTimeout(() => {
-                contactForm.reset();
-                submitBtn.innerHTML = originalText;
-                submitBtn.style.background = '';
-            }, 3000);
-        }
-    });
+.search-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--bg-gray);
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
 }
 
-// Newsletter form
-const newsletterForm = document.querySelector('.newsletter-form');
-if (newsletterForm) {
-    newsletterForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const emailInput = newsletterForm.querySelector('input[type="email"]');
-        const email = emailInput.value;
-        
-        if (email && email.includes('@')) {
-            const button = newsletterForm.querySelector('button');
-            const originalText = button.textContent;
-            button.textContent = '✓ Đã đăng ký!';
-            
-            setTimeout(() => {
-                emailInput.value = '';
-                button.textContent = originalText;
-            }, 3000);
-        }
-    });
+.tab-btn {
+    flex: 1;
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--text-gray);
+    transition: var(--transition);
 }
 
-// Search functionality
-const searchBtn = document.querySelector('.search-btn');
-if (searchBtn) {
-    searchBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        const activeBox = document.querySelector('.search-box.active');
-        const inputs = activeBox.querySelectorAll('.search-input');
-        let hasValue = false;
-        
-        inputs.forEach(input => {
-            if (input.value.trim()) {
-                hasValue = true;
-            }
-        });
-        
-        if (hasValue) {
-            // Animate button
-            searchBtn.innerHTML = '<span>Đang tìm kiếm...</span>';
-            searchBtn.style.transform = 'scale(0.95)';
-            
-            setTimeout(() => {
-                searchBtn.innerHTML = '<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg> Tìm thấy kết quả!';
-                searchBtn.style.transform = 'scale(1)';
-                
-                setTimeout(() => {
-                    searchBtn.innerHTML = '<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg> Tìm chuyến bay';
-                }, 2000);
-            }, 1500);
-        } else {
-            // Shake animation if no input
-            searchBtn.style.animation = 'shake 0.5s';
-            setTimeout(() => {
-                searchBtn.style.animation = '';
-            }, 500);
-        }
-    });
+.tab-btn.active {
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-brown));
+    color: var(--white);
 }
 
-// Add shake animation style
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-10px); }
-        75% { transform: translateX(10px); }
+.tab-btn:hover:not(.active) {
+    background: var(--bg-light);
+}
+
+.search-box {
+    padding: 2rem;
+    display: none;
+}
+
+.search-box.active {
+    display: block;
+}
+
+.search-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.search-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+.search-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-gray);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--bg-gray);
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    background: var(--bg-light);
+}
+
+.swap-btn {
+    padding: 0.75rem;
+    background: var(--bg-light);
+    border: 2px solid var(--bg-gray);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1.25rem;
+    color: var(--primary-brown);
+}
+
+.swap-btn:hover {
+    background: var(--primary-gold);
+    color: var(--white);
+    transform: rotate(180deg);
+}
+
+.search-btn {
+    margin-top: 1.5rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-brown));
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    transition: var(--transition);
+}
+
+.search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+/* Sections */
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: var(--dark-brown);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-gold), var(--primary-brown));
+}
+
+.section-subtitle {
+    color: var(--text-gray);
+    font-size: 1.125rem;
+}
+
+/* Destinations */
+.destinations {
+    padding: 5rem 0;
+    background: var(--bg-light);
+}
+
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.destination-card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.destination-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+.destination-card.large {
+    grid-column: span 2;
+}
+
+.destination-image {
+    height: 250px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+}
+
+.destination-content {
+    padding: 1.5rem;
+    color: var(--white);
+}
+
+.destination-label {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--primary-gold);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.destination-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.destination-content p {
+    font-size: 0.875rem;
+    opacity: 0.9;
+    margin-bottom: 1rem;
+}
+
+.destination-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.price-from {
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+
+.price-amount {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+/* Services */
+.services {
+    padding: 5rem 0;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.service-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    text-align: center;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.service-icon {
+    margin-bottom: 1.5rem;
+}
+
+.service-card h3 {
+    color: var(--dark-brown);
+    margin-bottom: 1rem;
+}
+
+.service-card p {
+    color: var(--text-gray);
+    margin-bottom: 1.5rem;
+}
+
+.service-features {
+    list-style: none;
+    text-align: left;
+}
+
+.service-features li {
+    padding: 0.5rem 0;
+    color: var(--text-gray);
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.service-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--primary-gold);
+    font-weight: bold;
+}
+
+/* Why Us */
+.why-us {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, var(--light-gold) 0%, var(--bg-light) 100%);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.feature-item {
+    text-align: center;
+}
+
+.feature-number {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-brown));
+    color: var(--white);
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.feature-item h3 {
+    color: var(--dark-brown);
+    margin-bottom: 0.5rem;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-brown));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+    color: var(--text-gray);
+}
+
+/* Testimonials */
+.testimonials {
+    padding: 5rem 0;
+    background: var(--bg-gray);
+}
+
+.testimonials-slider {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.testimonial-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.stars {
+    color: var(--primary-gold);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.testimonial-content p {
+    color: var(--text-gray);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-author strong {
+    display: block;
+    color: var(--dark-brown);
+    margin-bottom: 0.25rem;
+}
+
+.testimonial-author span {
+    color: var(--text-gray);
+    font-size: 0.875rem;
+}
+
+/* Partners */
+.partners {
+    padding: 3rem 0;
+}
+
+.partners-grid {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.partner-logo {
+    padding: 1rem 2rem;
+    background: var(--bg-light);
+    border-radius: 10px;
+    color: var(--text-gray);
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.partner-logo:hover {
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-brown));
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+/* Contact */
+.contact {
+    padding: 5rem 0;
+    background: var(--bg-light);
+}
+
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.contact-info h3 {
+    color: var(--dark-brown);
+    margin-bottom: 2rem;
+}
+
+.info-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-item svg {
+    color: var(--primary-gold);
+    flex-shrink: 0;
+}
+
+.info-item strong {
+    display: block;
+    color: var(--dark-brown);
+    margin-bottom: 0.25rem;
+}
+
+.info-item p {
+    color: var(--text-gray);
+}
+
+.contact-form h3 {
+    color: var(--dark-brown);
+    margin-bottom: 1.5rem;
+}
+
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+    padding: 0.75rem;
+    border: 2px solid var(--bg-gray);
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    background: var(--white);
+}
+
+.submit-btn {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-brown));
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: var(--transition);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+/* Newsletter */
+.newsletter {
+    padding: 3rem 0;
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-brown));
+}
+
+.newsletter-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.newsletter-text h3 {
+    color: var(--white);
+    margin-bottom: 0.5rem;
+}
+
+.newsletter-text p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 1rem;
+    flex: 1;
+    max-width: 400px;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    font-size: 1rem;
+}
+
+.newsletter-form input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.newsletter-form button {
+    padding: 0.75rem 1.5rem;
+    background: var(--white);
+    color: var(--primary-brown);
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.newsletter-form button:hover {
+    transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+    padding: 3rem 0 1rem;
+    background: var(--text-dark);
+    color: var(--white);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-column h3,
+.footer-column h4 {
+    margin-bottom: 1rem;
+    color: var(--primary-gold);
+}
+
+.footer-column p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1rem;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-column ul a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer-column ul a:hover {
+    color: var(--primary-gold);
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.social-links a:hover {
+    background: var(--primary-gold);
+    transform: scale(1.1);
+}
+
+.footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.footer-bottom p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-brown));
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    z-index: 999;
+}
+
+.back-to-top:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-hover);
+}
+
+.back-to-top.show {
+    display: flex;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background: var(--white);
+        width: 100%;
+        padding: 2rem;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
     }
-`;
-document.head.appendChild(style);
 
-// Lazy loading for images (if you add real images later)
-const imageObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const img = entry.target;
-            if (img.dataset.src) {
-                img.src = img.dataset.src;
-                img.removeAttribute('data-src');
-                imageObserver.unobserve(img);
-            }
-        }
-    });
-}, { rootMargin: '50px' });
+    .nav-menu.active {
+        left: 0;
+    }
 
-// Observe all images with data-src
-document.querySelectorAll('img[data-src]').forEach(img => {
-    imageObserver.observe(img);
-});
+    .hamburger {
+        display: flex;
+    }
 
-// Auto-complete for location inputs
-const locations = [
-    'Hà Nội (HAN)',
-    'TP. Hồ Chí Minh (SGN)',
-    'Đà Nẵng (DAD)',
-    'Nha Trang (CXR)',
-    'Phú Quốc (PQC)',
-    'Đà Lạt (DLI)',
-    'Huế (HUI)',
-    'Hải Phòng (HPH)',
-    'Cần Thơ (VCA)',
-    'Buôn Ma Thuột (BMV)',
-    'Quy Nhơn (UIH)',
-    'Vinh (VII)',
-    'Pleiku (PXU)',
-    'Bangkok (BKK)',
-    'Singapore (SIN)',
-    'Kuala Lumpur (KUL)',
-    'Tokyo (NRT)',
-    'Seoul (ICN)',
-    'Hong Kong (HKG)',
-    'Taipei (TPE)'
-];
+    .hero-title {
+        font-size: 2.5rem;
+    }
 
-const locationInputs = document.querySelectorAll('.search-box input[type="text"]');
-locationInputs.forEach(input => {
-    const datalist = document.createElement('datalist');
-    datalist.id = `locations-${Math.random().toString(36).substr(2, 9)}`;
-    
-    locations.forEach(location => {
-        const option = document.createElement('option');
-        option.value = location;
-        datalist.appendChild(option);
-    });
-    
-    document.body.appendChild(datalist);
-    input.setAttribute('list', datalist.id);
-});
+    .destinations-grid {
+        grid-template-columns: 1fr;
+    }
 
-// Animation on scroll
-const animateOnScroll = () => {
-    const elements = document.querySelectorAll('.service-card, .destination-card, .feature-item, .testimonial-card');
-    
-    elements.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementBottom = element.getBoundingClientRect().bottom;
-        
-        if (elementTop < window.innerHeight && elementBottom > 0) {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
-        }
-    });
-};
+    .destination-card.large {
+        grid-column: span 1;
+    }
 
-// Initial setup for scroll animations
-document.querySelectorAll('.service-card, .destination-card, .feature-item, .testimonial-card').forEach(element => {
-    element.style.opacity = '0';
-    element.style.transform = 'translateY(20px)';
-    element.style.transition = 'all 0.6s ease';
-});
+    .contact-content {
+        grid-template-columns: 1fr;
+    }
 
-window.addEventListener('scroll', animateOnScroll);
-window.addEventListener('load', animateOnScroll);
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+    }
+}
 
-// Console message
-console.log('%c🛫 Welcome to SkyfareHub! 🛫', 'color: #D4AF37; font-size: 20px; font-weight: bold;');
-console.log('%cKết nối bầu trời, khám phá thế giới', 'color: #8B4513; font-size: 14px;');
-console.log('%cWebsite developed with ❤️ by SkyfareHub Team', 'color: #6B6B6B; font-size: 12px;');
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
 
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    // Set active tab
-    const firstTab = document.querySelector('.tab-btn');
-    const firstSearchBox = document.querySelector('.search-box');
-    if (firstTab) firstTab.classList.add('active');
-    if (firstSearchBox) firstSearchBox.classList.add('active');
-    
-    // Trigger animations
-    animateOnScroll();
-});
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .search-row {
+        flex-direction: column;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .newsletter-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .newsletter-form {
+        width: 100%;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .btn-hotline span {
+        display: none;
+    }
+
+    .stats-container {
+        flex-direction: column;
+    }
+}
