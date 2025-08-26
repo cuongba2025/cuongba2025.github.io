@@ -1,31 +1,3 @@
-// Hotline config
-const HOTLINE = '19000080';
-
-function openHotline() {
-  const dlg = document.getElementById('hotlineDialog');
-  if (!dlg) return;
-
-  const open = () => {
-    if (typeof dlg.showModal === 'function') {
-      if (!dlg.open) dlg.showModal();
-    } else {
-      dlg.setAttribute('open', '');
-    }
-  };
-
-  // View Transition API để mượt hơn khi mở modal
-  if (document.startViewTransition) {
-    document.startViewTransition(() => open());
-  } else {
-    open();
-  }
-}
-
-function isInsideHotlineModal(el) {
-  const dlg = document.getElementById('hotlineDialog');
-  return !!el && (el === dlg || (dlg && dlg.contains(el)));
-}
-
 function supportsReducedMotion(){
   return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
@@ -75,24 +47,12 @@ function attachMagnet() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Đảm bảo link tel đúng
-  const a = document.getElementById('hotlineLink');
-  if (a) a.href = `tel:${HOTLINE}`;
+  // View Transition cho những thay đổi nhỏ (nếu cần mở rộng về sau)
+  if (document.startViewTransition) {
+    document.querySelector('.vt-logo')?.setAttribute('style', 'view-transition-name: vt-logo;');
+    document.querySelector('.vt-hero')?.setAttribute('style', 'view-transition-name: vt-hero;');
+  }
 
-  // Bắt mọi click để bật hotline (trừ những phần tử cho phép hoặc bên trong modal)
-  document.addEventListener('click', (e) => {
-    const target = e.target;
-    if (target.closest('[data-allow]')) return;
-    if (isInsideHotlineModal(target)) return;
-    e.preventDefault();
-    openHotline();
-  }, true);
-
-  // View Transition targets
-  document.querySelector('.vt-logo')?.setAttribute('style', 'view-transition-name: vt-logo;');
-  document.querySelector('.vt-hero')?.setAttribute('style', 'view-transition-name: vt-hero;');
-
-  // Hiệu ứng tương tác
   attachTilt();
   attachMagnet();
 });
