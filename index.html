@@ -9,7 +9,7 @@
 </head>
 <body>
   <header class="nav">
-    <div class="container nav-inner" id="top">
+    <div class="container nav-inner">
       <a class="brand vt-logo" href="#" aria-label="SkyfareHub">
         <!-- SVG Logo: gradient + glow -->
         <svg class="logo" viewBox="0 0 160 160" aria-hidden="true" focusable="false">
@@ -31,41 +31,43 @@
         </svg>
         <span class="brand-name">SkyfareHub</span>
       </a>
+
       <nav class="menu">
-        <a href="#">Trang chủ</a>
-        <a href="#">Chuyến bay</a>
-        <a href="#">Ưu đãi</a>
-        <a href="#">Dịch vụ</a>
-        <a href="#">Liên hệ</a>
+        <a href="#home">Trang chủ</a>
+        <a href="#flights">Chuyến bay</a>
+        <a href="#deals">Ưu đãi</a>
+        <a href="#services">Dịch vụ</a>
+        <a href="#contact">Liên hệ</a>
       </nav>
-      <a class="btn primary" href="#" aria-label="Đặt vé ngay" data-allow>Đặt vé ngay</a>
+
+      <a class="btn primary hotline" href="tel:19000080" aria-label="Gọi ngay 1900 0080">Gọi 1900 0080</a>
     </div>
   </header>
 
-  <main>
+  <main id="home">
     <section class="hero">
       <figure class="hero-art" role="img" aria-label="Hình ảnh chủ đề hàng không và du lịch cao cấp"></figure>
       <div class="container hero-inner">
         <h1 class="vt-hero">Vé máy bay & Du lịch đẳng cấp</h1>
         <p class="tagline">Bay thông minh, chạm tương lai.</p>
         <div class="cta-group">
-          <a class="btn primary" href="tel:19000080" data-allow aria-label="Gọi ngay 19000080">Gọi ngay 19000080</a>
-          <a class="btn ghost" href="#" data-allow>Tư vấn lộ trình</a>
+          <a class="btn primary" href="tel:19000080" aria-label="Gọi ngay 1900 0080">Gọi ngay 1900 0080</a>
+          <a class="btn ghost" href="#flights">Khám phá chuyến bay</a>
         </div>
       </div>
       <div class="hero-bg" aria-hidden="true"></div>
     </section>
 
-    <section class="features container">
+    <section id="flights" class="features container">
       <article class="card hover-tilt">
         <h3>Vé máy bay giá tốt</h3>
         <p>Tìm kiếm linh hoạt, minh bạch thuế phí, xuất vé nhanh trong vài phút.</p>
       </article>
-      <article class="card hover-tilt">
+      <article id="deals" class="card hover-tilt">
         <h3>Combo du lịch</h3>
         <p>Vé máy bay + khách sạn/resort với chính sách đổi hoàn linh hoạt.</p>
       </article>
-      <article class="card hover-tilt">
+      <article id="services" class="card hover-tilt">
         <h3>Hỗ trợ 24/7</h3>
         <p>Đồng hành trước–trong–sau chuyến đi, chăm sóc tận tâm.</p>
       </article>
@@ -73,7 +75,7 @@
 
     <section class="destinations container">
       <h2>Điểm đến gợi ý</h2>
-      <div class="grid">
+      <div class="carousel scroller">
         <div class="tile img-1 hover-tilt">
           <h4>Hà Nội ⇄ TP.HCM</h4>
           <p>Bay linh hoạt cả ngày, nhiều hạng vé.</p>
@@ -89,18 +91,18 @@
       </div>
     </section>
 
-    <section class="about container">
+    <section id="contact" class="about container">
       <h2>Thông tin liên hệ</h2>
       <ul class="contact">
         <li><strong>Đơn vị chủ quản:</strong> Công ty TNHH SkyfareHub</li>
         <li><strong>Địa chỉ:</strong> 452 Xã Đàn - Hà Nội</li>
-        <li><strong>VP:</strong> 024-73060080 • <strong>Hotline:</strong> 19000080</li>
+        <li><strong>VP:</strong> 024-73060080 • <strong>Hotline:</strong> 1900 0080</li>
         <li><strong>Email:</strong> admin@skyfarehub.vn</li>
         <li><strong>Slogan:</strong> Bay thông minh, chạm tương lai.</li>
       </ul>
       <div class="callout">
-        <span>Hỗ trợ đặt vé ngay:</span>
-        <a class="btn primary" href="tel:19000080" data-allow aria-label="Gọi ngay 19000080">Gọi ngay 19000080</a>
+        <span>Cần hỗ trợ ngay?</span>
+        <a class="btn primary" href="tel:19000080" aria-label="Gọi ngay 1900 0080">Gọi ngay 1900 0080</a>
       </div>
     </section>
   </main>
@@ -111,19 +113,6 @@
       <div>Vé máy bay • Du lịch lữ hành</div>
     </div>
   </footer>
-
-  <!-- Hotline dialog -->
-  <dialog id="hotlineDialog" aria-label="Gọi hotline SkyfareHub">
-    <form method="dialog" class="hotline-modal" role="document">
-      <h3>Hotline</h3>
-      <p>Nhấn “Gọi ngay” để kết nối tổng đài SkyfareHub.</p>
-      <a id="hotlineLink" class="btn primary" href="tel:19000080" data-allow aria-label="Gọi ngay 19000080">Gọi ngay 19000080</a>
-      <button class="btn ghost" value="cancel" data-allow aria-label="Đóng hộp thoại">Đóng</button>
-    </form>
-  </dialog>
-
-  <!-- Floating call button -->
-  <a class="fab" href="tel:19000080" data-allow aria-label="Gọi 19000080">📞</a>
 
   <script src="script.js" defer></script>
 </body>
