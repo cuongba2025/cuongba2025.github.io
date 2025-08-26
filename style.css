@@ -7,9 +7,8 @@
   --card  : oklch(20% 0.02 270);
   --text  : oklch(92% 0.01 270);
   --muted : oklch(75% 0.02 270);
-  --line  : oklch(35% 0.01 270);
 
-  /* Ảnh AI (đặt file và cập nhật URL) */
+  /* Ảnh AI (đặt file vào /images nếu có) */
   --hero-img: url('images/hero-ai.png');
   --tile-1: url('images/hn-hcm.png');
   --tile-2: url('images/dn-sg.png');
@@ -27,16 +26,17 @@ body{
     conic-gradient(from 220deg at 80% 20%, color-mix(in oklch, var(--gold-2) 5%, transparent), transparent 45%, color-mix(in oklch, var(--brown) 8%, transparent) 60%, transparent 100%),
     var(--bg);
 }
-
 .container{ width:min(1120px, 92%); margin-inline:auto; container-type: inline-size }
 
-h1,h2,h3,h4{ margin:0 0 .6rem 0; line-height:1.15 }
+h1,h2,h3,h4{ margin:0 0 .6rem 0; line-height:1.15; text-wrap: balance }
 p{ margin:.4rem 0 0 0; color:var(--muted) }
 a{ color:inherit; text-decoration:none }
 
+/* Buttons */
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
-  padding:.72rem 1rem; border-radius:.9rem; border:1px solid color-mix(in oklch, white 12%, transparent);
+  padding:.72rem 1rem; border-radius:.9rem;
+  border:1px solid color-mix(in oklch, white 12%, transparent);
   cursor:pointer; transition: .25s ease; user-select:none; font-weight:650;
   &.primary{
     color:oklch(15% 0.02 270);
@@ -50,10 +50,11 @@ a{ color:inherit; text-decoration:none }
   &:hover{ transform: translateY(-1px); filter: brightness(1.03) }
 }
 
-/* Nav */
+/* Top nav */
 .nav{
   position:sticky; top:0; z-index:50; backdrop-filter: blur(10px);
-  background: color-mix(in oklch, var(--bg) 70%, transparent); border-bottom:1px solid color-mix(in oklch, white 8%, transparent);
+  background: color-mix(in oklch, var(--bg) 70%, transparent);
+  border-bottom:1px solid color-mix(in oklch, white 8%, transparent);
   .nav-inner{ display:flex; align-items:center; gap:1rem; padding:.7rem 0 }
   .brand{ display:flex; align-items:center; gap:.6rem; padding:.2rem .2rem; border-radius:.6rem }
   .logo{ width:36px; height:36px }
@@ -65,6 +66,7 @@ a{ color:inherit; text-decoration:none }
   .menu{ margin-left:auto; display:flex; gap:1rem;
     a{ padding:.5rem .7rem; border-radius:.5rem; &:hover{ background: color-mix(in oklch, white 8%, transparent) } }
   }
+  .hotline{ margin-left:.5rem }
 }
 
 /* Hero */
@@ -110,28 +112,28 @@ a{ color:inherit; text-decoration:none }
   backdrop-filter: blur(8px);
 }
 
-/* Destinations + spotlight */
+/* Destinations carousel (scroll-snap) */
 .destinations{ margin:4rem auto }
-.grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:1rem }
+.carousel{
+  display:grid; grid-auto-flow: column; grid-auto-columns: min(80%, 360px); gap:1rem;
+  overflow-x:auto; padding-bottom:.5rem; scroll-snap-type: x mandatory; scroll-padding: 1rem;
+}
 .tile{
+  scroll-snap-align: start;
   border-radius:1rem; border:1px solid color-mix(in oklch, white 10%, transparent); padding:1rem;
-  background:
-    linear-gradient(180deg, color-mix(in oklch, black 24%, transparent), transparent 60%),
-    var(--tile-1);
+  background: linear-gradient(180deg, color-mix(in oklch, black 24%, transparent), transparent 60%), var(--tile-1);
   background-size: cover; background-position: center;
   position:relative; overflow:hidden; isolation:isolate;
 }
-.tile.img-1{ background-image:
-    linear-gradient(180deg, color-mix(in oklch, black 24%, transparent), transparent 60%),
-    var(--tile-1); }
-.tile.img-2{ background-image:
-    linear-gradient(180deg, color-mix(in oklch, black 24%, transparent), transparent 60%),
-    var(--tile-2); }
-.tile.img-3{ background-image:
-    linear-gradient(180deg, color-mix(in oklch, black 24%, transparent), transparent 60%),
-    var(--tile-3); }
-.grid:has(.tile:hover) .tile{ opacity:.65; filter:saturate(.85) }
-.grid .tile:hover{ opacity:1; filter:none; transform: translateY(-2px); transition:.25s ease }
+.tile.img-1{ background-image: linear-gradient(180deg, color-mix(in oklch, black 24%, transparent), transparent 60%), var(--tile-1) }
+.tile.img-2{ background-image: linear-gradient(180deg, color-mix(in oklch, black 24%, transparent), transparent 60%), var(--tile-2) }
+.tile.img-3{ background-image: linear-gradient(180deg, color-mix(in oklch, black 24%, transparent), transparent 60%), var(--tile-3) }
+
+/* Spotlight với :has() khi hover trong viewport rộng */
+@media (hover: hover){
+  .carousel:has(.tile:hover) .tile{ opacity:.65; filter:saturate(.85) }
+  .carousel .tile:hover{ opacity:1; filter:none; transform: translateY(-2px); transition:.25s ease }
+}
 
 /* About */
 .about{ margin:4rem auto }
@@ -145,25 +147,7 @@ a{ color:inherit; text-decoration:none }
 .footer{ margin-top:5rem; border-top:1px solid color-mix(in oklch, white 10%, transparent); background: var(--bg) }
 .footer-inner{ padding:1.2rem 0; display:flex; justify-content:space-between; color: color-mix(in oklch, var(--text) 70%, var(--bg)) }
 
-/* Floating call button */
-.fab{
-  position:fixed; right:1.2rem; bottom:1.2rem; width:56px; height:56px; border-radius:50%;
-  display:grid; place-items:center; background: linear-gradient(135deg, var(--gold-1), var(--gold-2));
-  color:oklch(15% 0.02 270); font-size:22px; box-shadow: 0 12px 30px color-mix(in oklch, var(--gold-2) 36%, transparent), inset 0 0 0 1px color-mix(in oklch, white 65%, transparent);
-  border:1px solid color-mix(in oklch, white 18%, transparent);
-}
-
-/* Dialog (glass) */
-dialog{
-  border:none; border-radius:1rem; padding:0; background: color-mix(in oklch, var(--card) 85%, transparent); color:var(--text);
-  width:min(420px, 92%); box-shadow: 0 30px 120px color-mix(in oklch, black 70%, transparent); backdrop-filter: blur(10px);
-}
-dialog::backdrop{ backdrop-filter: blur(6px); background: color-mix(in oklch, black 60%, transparent) }
-.hotline-modal{ padding:1.2rem; display:grid; gap:.8rem }
-.hotline-modal h3{ font-size:1.3rem }
-.hotline-modal p{ color:var(--muted) }
-
-/* Scroll-driven: fade+rise on view() */
+/* Scroll-driven animations */
 @keyframes riseIn{
   from{ opacity:0; transform: translateY(22px) scale(.985) }
   to{ opacity:1; transform: translateY(0) scale(1) }
@@ -178,12 +162,9 @@ dialog::backdrop{ backdrop-filter: blur(6px); background: color-mix(in oklch, bl
 /* Container queries */
 @container (width > 900px){
   .features{ grid-template-columns: repeat(3, 1fr) }
-  .grid{ grid-template-columns: repeat(3, 1fr) }
-  .hero h1{ font-size: clamp(40px, 5vw, 64px) }
 }
 @container (width <= 900px){
   .features{ grid-template-columns: 1fr }
-  .grid{ grid-template-columns: 1fr }
   .menu{ display:none }
 }
 
