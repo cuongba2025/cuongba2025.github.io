@@ -3,39 +3,429 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkyfareHub Test</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background: linear-gradient(135deg, #D4AF37, #8B4513);
-            color: white;
-        }
-        h1 {
-            font-size: 3rem;
-        }
-        .info {
-            background: white;
-            color: #333;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 600px;
-            margin: 30px auto;
-        }
-    </style>
+    <title>SkyfareHub - Kết nối bầu trời, khám phá thế giới</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>SkyfareHub</h1>
-    <p>Kết nối bầu trời, khám phá thế giới</p>
-    
-    <div class="info">
-        <h2>Công ty TNHH SkyfareHub</h2>
-        <p>📍 452 Xã Đàn, Hà Nội</p>
-        <p>📞 Hotline: 19000080</p>
-        <p>✉️ admin@skyfarehub.vn</p>
-    </div>
-    
-    <p>Website đang được cập nhật...</p>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#" class="logo">
+                    <div class="logo-text">
+                        <span class="logo-main">SkyfareHub</span>
+                        <span class="logo-sub">Your Journey Begins Here</span>
+                    </div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link active">Trang chủ</a></li>
+                    <li><a href="#services" class="nav-link">Dịch vụ</a></li>
+                    <li><a href="#destinations" class="nav-link">Điểm đến</a></li>
+                    <li><a href="#about" class="nav-link">Về chúng tôi</a></li>
+                    <li><a href="#contact" class="nav-link">Liên hệ</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="btn-hotline">
+                        <span>📞 19000080</span>
+                    </button>
+                    <button class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg">
+            <div class="cloud cloud1"></div>
+            <div class="cloud cloud2"></div>
+            <div class="cloud cloud3"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="title-line1">Kết nối bầu trời</span>
+                <span class="title-line2">Khám phá thế giới</span>
+            </h1>
+            <p class="hero-description">
+                Trải nghiệm dịch vụ đặt vé máy bay và tour du lịch chuyên nghiệp với giá tốt nhất thị trường
+            </p>
+            
+            <div class="search-container">
+                <div class="search-tabs">
+                    <button class="tab-btn active" data-tab="flights">✈️ Vé máy bay</button>
+                    <button class="tab-btn" data-tab="hotels">🏨 Khách sạn</button>
+                    <button class="tab-btn" data-tab="tours">🎫 Tour du lịch</button>
+                </div>
+                
+                <div class="search-box active" id="flights-search">
+                    <div class="search-row">
+                        <div class="search-group">
+                            <label>Điểm đi</label>
+                            <input type="text" placeholder="Hà Nội (HAN)" class="search-input">
+                        </div>
+                        <button class="swap-btn">⇄</button>
+                        <div class="search-group">
+                            <label>Điểm đến</label>
+                            <input type="text" placeholder="TP. Hồ Chí Minh (SGN)" class="search-input">
+                        </div>
+                        <div class="search-group">
+                            <label>Ngày đi</label>
+                            <input type="date" class="search-input">
+                        </div>
+                        <div class="search-group">
+                            <label>Ngày về</label>
+                            <input type="date" class="search-input">
+                        </div>
+                        <div class="search-group">
+                            <label>Hành khách</label>
+                            <select class="search-input">
+                                <option>1 Người lớn</option>
+                                <option>2 Người lớn</option>
+                                <option>3 Người lớn</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="search-btn">🔍 Tìm chuyến bay</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Dịch vụ của chúng tôi</h2>
+                <p class="section-subtitle">Giải pháp toàn diện cho mọi nhu cầu du lịch</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">✈️</div>
+                    <h3>Vé máy bay giá rẻ</h3>
+                    <p>Cung cấp vé máy bay với giá ưu đãi từ hơn 100 hãng hàng không</p>
+                    <ul class="service-features">
+                        <li>Giá vé cạnh tranh nhất</li>
+                        <li>Đặt vé online 24/7</li>
+                        <li>Hỗ trợ đổi vé, hoàn vé</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🏨</div>
+                    <h3>Đặt phòng khách sạn</h3>
+                    <p>Hệ thống đặt phòng với hàng nghìn khách sạn từ bình dân đến cao cấp</p>
+                    <ul class="service-features">
+                        <li>Giá phòng ưu đãi</li>
+                        <li>Xác nhận đặt phòng ngay</li>
+                        <li>Hủy phòng miễn phí</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🎫</div>
+                    <h3>Tour du lịch trọn gói</h3>
+                    <p>Tour du lịch chất lượng cao với lịch trình chi tiết</p>
+                    <ul class="service-features">
+                        <li>Tour trong nước và quốc tế</li>
+                        <li>Bảo hiểm du lịch</li>
+                        <li>Xe đưa đón tận nơi</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🚗</div>
+                    <h3>Thuê xe du lịch</h3>
+                    <p>Dịch vụ cho thuê xe đa dạng từ 4 chỗ đến 45 chỗ</p>
+                    <ul class="service-features">
+                        <li>Xe đời mới, chất lượng</li>
+                        <li>Tài xế kinh nghiệm</li>
+                        <li>Giá cả minh bạch</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📄</div>
+                    <h3>Visa và Bảo hiểm</h3>
+                    <p>Hỗ trợ làm visa nhanh chóng và các gói bảo hiểm du lịch</p>
+                    <ul class="service-features">
+                        <li>Visa các nước</li>
+                        <li>Bảo hiểm du lịch quốc tế</li>
+                        <li>Tư vấn thủ tục miễn phí</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">💰</div>
+                    <h3>Ưu đãi đặc biệt</h3>
+                    <p>Cập nhật liên tục các chương trình khuyến mãi hấp dẫn</p>
+                    <ul class="service-features">
+                        <li>Giảm giá theo mùa</li>
+                        <li>Ưu đãi nhóm, gia đình</li>
+                        <li>Tích điểm thưởng</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section id="destinations" class="destinations">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Điểm đến phổ biến</h2>
+                <p class="section-subtitle">Khám phá những địa điểm du lịch hấp dẫn nhất</p>
+            </div>
+            
+            <div class="destinations-grid">
+                <div class="destination-card">
+                    <div class="destination-image" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                        <div class="destination-content">
+                            <span class="destination-label">Hot Deal</span>
+                            <h3>Đà Nẵng</h3>
+                            <p>Thành phố biển xinh đẹp</p>
+                            <div class="destination-price">
+                                <span class="price-from">Từ</span>
+                                <span class="price-amount">899.000₫</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-image" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                        <div class="destination-content">
+                            <h3>Phú Quốc</h3>
+                            <p>Đảo ngọc thiên đường</p>
+                            <div class="destination-price">
+                                <span class="price-from">Từ</span>
+                                <span class="price-amount">1.299.000₫</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-image" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                        <div class="destination-content">
+                            <h3>Nha Trang</h3>
+                            <p>Vịnh biển đẹp nhất</p>
+                            <div class="destination-price">
+                                <span class="price-from">Từ</span>
+                                <span class="price-amount">799.000₫</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-image" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                        <div class="destination-content">
+                            <h3>Đà Lạt</h3>
+                            <p>Thành phố ngàn hoa</p>
+                            <div class="destination-price">
+                                <span class="price-from">Từ</span>
+                                <span class="price-amount">699.000₫</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section id="why-us" class="why-us">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Tại sao chọn SkyfareHub?</h2>
+                <p class="section-subtitle">Cam kết mang đến trải nghiệm du lịch tuyệt vời nhất</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-number">01</div>
+                    <h3>Giá cả cạnh tranh</h3>
+                    <p>Cam kết giá tốt nhất thị trường với nhiều ưu đãi hấp dẫn</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">02</div>
+                    <h3>Đặt vé nhanh chóng</h3>
+                    <p>Hệ thống đặt vé online 24/7, xác nhận ngay lập tức</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">03</div>
+                    <h3>Hỗ trợ tận tình</h3>
+                    <p>Đội ngũ tư vấn chuyên nghiệp, hỗ trợ khách hàng 24/7</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">04</div>
+                    <h3>Thanh toán an toàn</h3>
+                    <p>Đa dạng hình thức thanh toán, bảo mật tuyệt đối</p>
+                </div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="1000000">0</span>
+                    <span class="stat-label">Khách hàng tin tưởng</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="500">0</span>
+                    <span class="stat-label">Đối tác hàng không</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="1000">0</span>
+                    <span class="stat-label">Tour du lịch</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="98">0</span>
+                    <span class="stat-label">% Hài lòng</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Về SkyfareHub</h2>
+            </div>
+            <div class="about-content">
+                <p>SkyfareHub tự hào là đơn vị hàng đầu trong lĩnh vực cung cấp dịch vụ vé máy bay và du lịch tại Việt Nam. Với kinh nghiệm nhiều năm trong ngành, chúng tôi cam kết mang đến cho khách hàng những trải nghiệm tuyệt vời nhất.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Liên hệ với chúng tôi</h2>
+                <p class="section-subtitle">Sẵn sàng hỗ trợ bạn 24/7</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Công ty TNHH SkyfareHub</h3>
+                    <div class="info-item">
+                        <strong>📍 Địa chỉ:</strong>
+                        <p>452 Xã Đàn, Đống Đa, Hà Nội</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>📞 Điện thoại:</strong>
+                        <p>VP: 024-73060080</p>
+                        <p>Hotline: 19000080</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>✉️ Email:</strong>
+                        <p>admin@skyfarehub.vn</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>⏰ Giờ làm việc:</strong>
+                        <p>24/7 - Hỗ trợ mọi lúc</p>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Gửi tin nhắn cho chúng tôi</h3>
+                    <form>
+                        <div class="form-row">
+                            <input type="text" placeholder="Họ và tên" required>
+                            <input type="tel" placeholder="Số điện thoại" required>
+                        </div>
+                        <input type="email" placeholder="Email" required>
+                        <select>
+                            <option>Chọn dịch vụ quan tâm</option>
+                            <option>Vé máy bay</option>
+                            <option>Tour du lịch</option>
+                            <option>Khách sạn</option>
+                            <option>Thuê xe</option>
+                        </select>
+                        <textarea placeholder="Nội dung tin nhắn..." rows="5"></textarea>
+                        <button type="submit" class="submit-btn">📨 Gửi tin nhắn</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <div class="newsletter-text">
+                    <h3>Đăng ký nhận ưu đãi</h3>
+                    <p>Nhận ngay thông tin về các chương trình khuyến mãi và ưu đãi đặc biệt</p>
+                </div>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Nhập email của bạn...">
+                    <button type="submit">Đăng ký</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SkyfareHub</h3>
+                    <p>Kết nối bầu trời, khám phá thế giới. Đối tác tin cậy cho mọi hành trình của bạn.</p>
+                    <div class="social-links">
+                        <a href="#">Facebook</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">Youtube</a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Dịch vụ</h4>
+                    <ul>
+                        <li><a href="#">Vé máy bay nội địa</a></li>
+                        <li><a href="#">Vé máy bay quốc tế</a></li>
+                        <li><a href="#">Đặt phòng khách sạn</a></li>
+                        <li><a href="#">Tour du lịch</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Hỗ trợ</h4>
+                    <ul>
+                        <li><a href="#">Hướng dẫn đặt vé</a></li>
+                        <li><a href="#">Phương thức thanh toán</a></li>
+                        <li><a href="#">Chính sách hoàn vé</a></li>
+                        <li><a href="#">Câu hỏi thường gặp</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Về chúng tôi</h4>
+                    <ul>
+                        <li><a href="#">Giới thiệu công ty</a></li>
+                        <li><a href="#">Tuyển dụng</a></li>
+                        <li><a href="#">Tin tức</a></li>
+                        <li><a href="#">Liên hệ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Công ty TNHH SkyfareHub. Giấy phép kinh doanh số: 0123456789</p>
+                <p>Địa chỉ: 452 Xã Đàn, Đống Đa, Hà Nội | Điện thoại: 024-73060080 | Hotline: 19000080</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <script src="script.js"></script>
 </body>
 </html>
