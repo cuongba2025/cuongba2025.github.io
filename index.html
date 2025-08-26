@@ -1,119 +1,247 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SkyfareHub — Vé máy bay & Du lịch</title>
-  <link rel="stylesheet" href="style.css" />
-  <meta name="description" content="SkyfareHub — Vé máy bay, combo du lịch, dịch vụ lữ hành cao cấp." />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyfareHub - Kết nối bầu trời, khám phá thế giới</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="nav">
-    <div class="container nav-inner">
-      <a class="brand vt-logo" href="#" aria-label="SkyfareHub">
-        <!-- SVG Logo: gradient + glow -->
-        <svg class="logo" viewBox="0 0 160 160" aria-hidden="true" focusable="false">
-          <defs>
-            <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%"  stop-color="oklch(85% 0.18 85)"/>
-              <stop offset="55%" stop-color="oklch(78% 0.16 80)"/>
-              <stop offset="100%" stop-color="oklch(60% 0.08 60)"/>
-            </linearGradient>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-          <circle cx="80" cy="80" r="70" fill="none" stroke="url(#goldGrad)" stroke-width="8" filter="url(#glow)"/>
-          <path d="M50,55c10,-14 30,-18 44,-10c9,5 13,14 8,21c-4,5 -12,8 -23,12c-13,5 -20,9 -21,17c-1,10 10,19 23,20c13,1 23,-5 29,-13"
-                fill="none" stroke="url(#goldGrad)" stroke-width="10" stroke-linecap="round" filter="url(#glow)"/>
-          <path d="M110,92 l20,-6 l-10,16 z" fill="url(#goldGrad)"/>
-        </svg>
-        <span class="brand-name">SkyfareHub</span>
-      </a>
-
-      <nav class="menu">
-        <a href="#home">Trang chủ</a>
-        <a href="#flights">Chuyến bay</a>
-        <a href="#deals">Ưu đãi</a>
-        <a href="#services">Dịch vụ</a>
-        <a href="#contact">Liên hệ</a>
-      </nav>
-
-      <a class="btn primary hotline" href="tel:19000080" aria-label="Gọi ngay 1900 0080">Gọi 1900 0080</a>
-    </div>
-  </header>
-
-  <main id="home">
-    <section class="hero">
-      <figure class="hero-art" role="img" aria-label="Hình ảnh chủ đề hàng không và du lịch cao cấp"></figure>
-      <div class="container hero-inner">
-        <h1 class="vt-hero">Vé máy bay & Du lịch đẳng cấp</h1>
-        <p class="tagline">Bay thông minh, chạm tương lai.</p>
-        <div class="cta-group">
-          <a class="btn primary" href="tel:19000080" aria-label="Gọi ngay 1900 0080">Gọi ngay 1900 0080</a>
-          <a class="btn ghost" href="#flights">Khám phá chuyến bay</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <svg width="45" height="45" viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#8B4513;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="50" r="48" fill="url(#logoGradient)" opacity="0.1"/>
+                    <path d="M50 15 L70 40 L50 35 L30 40 Z" fill="url(#logoGradient)"/>
+                    <path d="M25 50 L50 35 L75 50 L50 45 Z" fill="#8B4513" opacity="0.8"/>
+                    <circle cx="50" cy="50" r="3" fill="#D4AF37"/>
+                    <path d="M20 60 Q50 55 80 60" stroke="url(#logoGradient)" stroke-width="2" fill="none"/>
+                </svg>
+                <span>SkyfareHub</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Trang chủ</a></li>
+                <li><a href="#services">Dịch vụ</a></li>
+                <li><a href="#destinations">Điểm đến</a></li>
+                <li><a href="#about">Về chúng tôi</a></li>
+                <li><a href="#contact">Liên hệ</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-      </div>
-      <div class="hero-bg" aria-hidden="true"></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="floating-element element-1"></div>
+            <div class="floating-element element-2"></div>
+            <div class="floating-element element-3"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Kết nối bầu trời, khám phá thế giới</h1>
+            <p class="hero-subtitle">Trải nghiệm dịch vụ đặt vé máy bay ưu việt cùng SkyfareHub</p>
+            <div class="search-box">
+                <div class="search-item">
+                    <label>Điểm đi</label>
+                    <input type="text" placeholder="Nhập điểm khởi hành">
+                </div>
+                <div class="search-item">
+                    <label>Điểm đến</label>
+                    <input type="text" placeholder="Nhập điểm đến">
+                </div>
+                <div class="search-item">
+                    <label>Ngày đi</label>
+                    <input type="date">
+                </div>
+                <div class="search-item">
+                    <label>Ngày về</label>
+                    <input type="date">
+                </div>
+                <button class="search-btn">Tìm chuyến bay</button>
+            </div>
+        </div>
     </section>
 
-    <section id="flights" class="features container">
-      <article class="card hover-tilt">
-        <h3>Vé máy bay giá tốt</h3>
-        <p>Tìm kiếm linh hoạt, minh bạch thuế phí, xuất vé nhanh trong vài phút.</p>
-      </article>
-      <article id="deals" class="card hover-tilt">
-        <h3>Combo du lịch</h3>
-        <p>Vé máy bay + khách sạn/resort với chính sách đổi hoàn linh hoạt.</p>
-      </article>
-      <article id="services" class="card hover-tilt">
-        <h3>Hỗ trợ 24/7</h3>
-        <p>Đồng hành trước–trong–sau chuyến đi, chăm sóc tận tâm.</p>
-      </article>
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Dịch vụ của chúng tôi</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">✈️</div>
+                    <h3>Vé máy bay</h3>
+                    <p>Đặt vé máy bay với giá tốt nhất từ hàng trăm hãng hàng không</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏨</div>
+                    <h3>Khách sạn</h3>
+                    <p>Đa dạng lựa chọn khách sạn với mức giá phù hợp</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🎫</div>
+                    <h3>Tour du lịch</h3>
+                    <p>Tour trọn gói với lịch trình chi tiết và dịch vụ chuyên nghiệp</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚗</div>
+                    <h3>Thuê xe</h3>
+                    <p>Dịch vụ thuê xe đa dạng, phục vụ mọi nhu cầu di chuyển</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section class="destinations container">
-      <h2>Điểm đến gợi ý</h2>
-      <div class="carousel scroller">
-        <div class="tile img-1 hover-tilt">
-          <h4>Hà Nội ⇄ TP.HCM</h4>
-          <p>Bay linh hoạt cả ngày, nhiều hạng vé.</p>
+    <!-- Destinations Section -->
+    <section id="destinations" class="destinations">
+        <div class="container">
+            <h2 class="section-title">Điểm đến phổ biến</h2>
+            <div class="destinations-grid">
+                <div class="destination-card">
+                    <div class="destination-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <span>Đà Nẵng</span>
+                    </div>
+                    <div class="destination-info">
+                        <p>Từ 899.000₫</p>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <span>Phú Quốc</span>
+                    </div>
+                    <div class="destination-info">
+                        <p>Từ 1.299.000₫</p>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <span>Nha Trang</span>
+                    </div>
+                    <div class="destination-info">
+                        <p>Từ 799.000₫</p>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <span>Đà Lạt</span>
+                    </div>
+                    <div class="destination-info">
+                        <p>Từ 699.000₫</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="tile img-2 hover-tilt">
-          <h4>Đà Nẵng ⇄ Singapore</h4>
-          <p>Khám phá đô thị xanh, mua sắm miễn thuế.</p>
-        </div>
-        <div class="tile img-3 hover-tilt">
-          <h4>Nha Trang ⇄ Seoul</h4>
-          <p>Ẩm thực Hàn, mùa lá vàng lãng mạn.</p>
-        </div>
-      </div>
     </section>
 
-    <section id="contact" class="about container">
-      <h2>Thông tin liên hệ</h2>
-      <ul class="contact">
-        <li><strong>Đơn vị chủ quản:</strong> Công ty TNHH SkyfareHub</li>
-        <li><strong>Địa chỉ:</strong> 452 Xã Đàn - Hà Nội</li>
-        <li><strong>VP:</strong> 024-73060080 • <strong>Hotline:</strong> 1900 0080</li>
-        <li><strong>Email:</strong> admin@skyfarehub.vn</li>
-        <li><strong>Slogan:</strong> Bay thông minh, chạm tương lai.</li>
-      </ul>
-      <div class="callout">
-        <span>Cần hỗ trợ ngay?</span>
-        <a class="btn primary" href="tel:19000080" aria-label="Gọi ngay 1900 0080">Gọi ngay 1900 0080</a>
-      </div>
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Về SkyfareHub</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Đối tác tin cậy cho mọi chuyến đi</h3>
+                    <p>SkyfareHub tự hào là đơn vị hàng đầu trong lĩnh vực cung cấp dịch vụ vé máy bay và du lịch tại Việt Nam. Với kinh nghiệm nhiều năm trong ngành, chúng tôi cam kết mang đến cho khách hàng những trải nghiệm tuyệt vời nhất.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <h4>1M+</h4>
+                            <p>Khách hàng tin tưởng</p>
+                        </div>
+                        <div class="stat">
+                            <h4>500+</h4>
+                            <p>Đối tác hàng không</p>
+                        </div>
+                        <div class="stat">
+                            <h4>24/7</h4>
+                            <p>Hỗ trợ khách hàng</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-  </main>
 
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>© SkyfareHub</div>
-      <div>Vé máy bay • Du lịch lữ hành</div>
-    </div>
-  </footer>
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Liên hệ với chúng tôi</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>📍 Địa chỉ</h3>
+                        <p>452 Xã Đàn, Hà Nội</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>📞 Điện thoại</h3>
+                        <p>VP: 024-73060080</p>
+                        <p>Hotline: 19000080</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>✉️ Email</h3>
+                        <p>admin@skyfarehub.vn</p>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <input type="text" placeholder="Họ và tên">
+                    <input type="email" placeholder="Email">
+                    <input type="tel" placeholder="Số điện thoại">
+                    <textarea placeholder="Nội dung tin nhắn" rows="4"></textarea>
+                    <button class="submit-btn">Gửi tin nhắn</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <script src="script.js" defer></script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SkyfareHub</h3>
+                    <p>Kết nối bầu trời, khám phá thế giới</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Dịch vụ</h4>
+                    <ul>
+                        <li>Vé máy bay</li>
+                        <li>Tour du lịch</li>
+                        <li>Khách sạn</li>
+                        <li>Thuê xe</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Thông tin</h4>
+                    <ul>
+                        <li>Về chúng tôi</li>
+                        <li>Điều khoản sử dụng</li>
+                        <li>Chính sách bảo mật</li>
+                        <li>Hỗ trợ</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kết nối</h4>
+                    <div class="social-links">
+                        <a href="#">Facebook</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">Youtube</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Công ty TNHH SkyfareHub. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
