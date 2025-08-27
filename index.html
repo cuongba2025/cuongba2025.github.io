@@ -11,27 +11,51 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --gold: #D4AF37;
+            --brown: #8B4513;
+            --dark: #2C2C2C;
+            --light: #FFF8F0;
+            --white: #FFFFFF;
+            --gray: #6B6B6B;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: var(--dark);
+            background: var(--white);
             overflow-x: hidden;
         }
 
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* Header */
+        /* Header with Glassmorphism */
         .header {
-            background: linear-gradient(135deg, #D4AF37, #8B4513);
             position: fixed;
             top: 0;
             width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 40px rgba(0,0,0,0.05);
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 5px 40px rgba(0,0,0,0.08);
         }
 
         .nav-container {
@@ -43,20 +67,18 @@
             align-items: center;
         }
 
-        .logo-main {
+        .logo {
             font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            background: linear-gradient(90deg, #FFF, #FFE082, #FFF);
-            background-size: 200% auto;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold), var(--brown));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradientShift 3s ease infinite;
+            text-decoration: none;
+            transition: transform 0.3s ease;
         }
 
-        .logo-sub {
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.8);
+        .logo:hover {
+            transform: scale(1.05);
         }
 
         .nav-menu {
@@ -66,120 +88,176 @@
         }
 
         .nav-link {
-            color: white;
+            color: var(--dark);
             text-decoration: none;
             font-weight: 500;
             position: relative;
-            transition: all 0.3s;
+            transition: color 0.3s ease;
         }
 
         .nav-link::after {
             content: '';
             position: absolute;
             bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #FFE082;
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover::after {
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
             width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), var(--brown));
+            transition: transform 0.3s ease;
         }
 
         .nav-link:hover {
-            color: #FFE082;
-            transform: translateY(-2px);
+            color: var(--gold);
+        }
+
+        .nav-link:hover::after {
+            transform: translateX(-50%) scaleX(1);
         }
 
         .btn-hotline {
-            background: white;
-            color: #8B4513;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, var(--gold), var(--brown));
+            color: white;
             border: none;
-            border-radius: 25px;
-            font-weight: bold;
+            border-radius: 50px;
+            font-weight: 600;
             cursor: pointer;
-            animation: pulse 2s infinite;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-hotline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-hotline:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn-hotline:hover {
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
         }
 
         .hamburger {
             display: none;
         }
 
-        /* Hero */
+        /* Hero Section with Gradient Animation */
         .hero {
             margin-top: 80px;
-            padding: 4rem 20px;
-            background: linear-gradient(135deg, #FFF8E1, #FFE0B2);
-            min-height: 500px;
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFE0B2 25%, #FFF8E1 50%, #FFE0B2 75%, #FFF8E1 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             position: relative;
-            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Shapes Background */
+        .hero::before,
+        .hero::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
+            animation: float 20s infinite ease-in-out;
         }
 
         .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
-            animation: float 6s ease-in-out infinite;
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            left: -100px;
+        }
+
+        .hero::after {
+            width: 300px;
+            height: 300px;
+            bottom: -50px;
+            right: -50px;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
         }
 
         .hero-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
             position: relative;
             z-index: 1;
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         .hero-title {
-            font-size: 3rem;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
             margin-bottom: 1rem;
-            animation: fadeInDown 1s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
         }
 
-        .title-line1 {
-            color: #D4AF37;
+        .hero-title span {
             display: block;
-            overflow: hidden;
-            white-space: nowrap;
-            animation: typing 2s steps(40, end);
-        }
-
-        .title-line2 {
-            color: #8B4513;
-            display: block;
-            animation: fadeInUp 1s ease 0.5s both;
+            background: linear-gradient(135deg, var(--gold), var(--brown));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero-description {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 2rem;
-            animation: fadeIn 1s ease 1s both;
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--gray);
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
         }
 
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+
+        /* Search Container with Neumorphism */
         .search-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: var(--white);
+            border-radius: 20px;
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
             max-width: 900px;
             margin: 0 auto;
-            animation: slideInUp 1s ease 1.5s both;
-            border: 1px solid rgba(212,175,55,0.2);
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
         }
 
         .search-tabs {
@@ -190,127 +268,101 @@
 
         .tab-btn {
             flex: 1;
-            padding: 0.8rem;
-            background: #f5f5f5;
+            padding: 1rem;
+            background: linear-gradient(145deg, #f0f0f0, #cacaca);
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .tab-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-weight: 600;
+            color: var(--gray);
+            transition: all 0.3s ease;
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, #D4AF37, #8B4513);
+            background: linear-gradient(135deg, var(--gold), var(--brown));
             color: white;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .tab-btn:hover:not(.active) {
+            transform: translateY(-2px);
         }
 
         .search-row {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-
-        .search-group {
-            flex: 1;
-            min-width: 150px;
+            margin-bottom: 1.5rem;
         }
 
         .search-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #666;
-            font-size: 0.9rem;
+            color: var(--gray);
+            font-size: 0.875rem;
+            font-weight: 500;
         }
 
         .search-input {
             width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 0.875rem;
+            border: 2px solid transparent;
+            background: #f5f5f5;
+            border-radius: 10px;
             font-size: 1rem;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
         .search-input:focus {
-            border-color: #D4AF37;
-            box-shadow: 0 0 10px rgba(212,175,55,0.2);
             outline: none;
-        }
-
-        .swap-btn {
-            padding: 0.8rem;
-            background: #f5f5f5;
-            border: 2px solid #e0e0e0;
-            border-radius: 50%;
-            cursor: pointer;
-            align-self: flex-end;
-            transition: all 0.3s;
-        }
-
-        .swap-btn:hover {
-            transform: rotate(180deg);
-            background: #D4AF37;
-            color: white;
-            border-color: #D4AF37;
+            border-color: var(--gold);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
         }
 
         .search-btn {
             width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #D4AF37, #8B4513);
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--gold), var(--brown));
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .search-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .search-btn:hover::before {
-            left: 100%;
+            transition: all 0.3s ease;
         }
 
         .search-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
         }
 
-        /* Sections */
-        .services,
-        .destinations,
-        .why-us,
-        .about,
-        .contact {
-            padding: 4rem 20px;
+        /* Ripple Effect */
+        .search-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
         }
 
-        .destinations {
-            background: #f8f8f8;
+        .search-btn:active::after {
+            width: 300px;
+            height: 300px;
         }
 
-        .why-us {
-            background: #FFF8E1;
+        /* Services Section */
+        .services {
+            padding: 5rem 0;
+            background: var(--light);
         }
 
         .section-header {
@@ -319,136 +371,125 @@
         }
 
         .section-title {
-            font-size: 2.5rem;
-            color: #8B4513;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            color: var(--brown);
             margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #D4AF37, #8B4513);
-            animation: widthExpand 1s ease;
         }
 
         .section-subtitle {
-            color: #666;
-            font-size: 1.1rem;
+            color: var(--gray);
+            font-size: 1.125rem;
         }
 
-        /* Services */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
         }
 
+        /* Card with Hover Effect */
         .service-card {
             background: white;
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-radius: 20px;
             text-align: center;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease forwards;
         }
-
-        .service-card:nth-child(1) { animation-delay: 0.1s; }
-        .service-card:nth-child(2) { animation-delay: 0.2s; }
-        .service-card:nth-child(3) { animation-delay: 0.3s; }
-        .service-card:nth-child(4) { animation-delay: 0.4s; }
-        .service-card:nth-child(5) { animation-delay: 0.5s; }
-        .service-card:nth-child(6) { animation-delay: 0.6s; }
 
         .service-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--brown));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
         }
 
         .service-card:hover::before {
-            opacity: 1;
+            transform: scaleX(1);
         }
 
         .service-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
         .service-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
-            animation: bounce 2s infinite;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .service-card h3 {
-            color: #8B4513;
+            color: var(--brown);
             margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
         }
 
         .service-features {
             list-style: none;
             text-align: left;
-            margin-top: 1rem;
         }
 
         .service-features li {
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
+            padding: 0.5rem 0 0.5rem 1.5rem;
             position: relative;
+            color: var(--gray);
         }
 
-        .service-features li:before {
-            content: "✓";
+        .service-features li::before {
+            content: '✓';
             position: absolute;
             left: 0;
-            color: #D4AF37;
+            color: var(--gold);
             font-weight: bold;
         }
 
-        /* Destinations */
+        /* Destinations with 3D Effect */
+        .destinations {
+            padding: 5rem 0;
+        }
+
         .destinations-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
 
         .destination-card {
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
             cursor: pointer;
             transform-style: preserve-3d;
+            perspective: 1000px;
         }
 
         .destination-card:hover {
-            transform: translateY(-15px) rotateY(5deg) rotateX(-5deg) scale(1.05);
+            transform: rotateY(5deg) rotateX(-5deg);
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
 
         .destination-image {
             height: 250px;
-            padding: 1.5rem;
-            display: flex;
-            align-items: flex-end;
-            color: white;
+            background-size: cover;
+            background-position: center;
             position: relative;
             overflow: hidden;
         }
@@ -456,17 +497,31 @@
         .destination-image::after {
             content: '';
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
         }
 
         .destination-content {
-            width: 100%;
-            position: relative;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            color: white;
             z-index: 1;
+        }
+
+        .destination-label {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--gold);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
         .destination-content h3 {
@@ -474,33 +529,17 @@
             margin-bottom: 0.5rem;
         }
 
-        .destination-label {
-            background: #FFE082;
-            color: #8B4513;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 0.5rem;
-            animation: pulse 2s infinite;
-        }
-
-        .destination-price {
-            margin-top: 0.5rem;
-        }
-
-        .price-from {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
         .price-amount {
-            font-size: 1.3rem;
-            font-weight: bold;
+            font-size: 1.25rem;
+            font-weight: 700;
         }
 
-        /* Features */
+        /* Why Choose Us */
+        .why-us {
+            padding: 5rem 0;
+            background: var(--light);
+        }
+
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -510,60 +549,59 @@
 
         .feature-item {
             text-align: center;
-            animation: fadeIn 1s ease;
+            padding: 1.5rem;
         }
 
         .feature-number {
-            display: inline-block;
-            width: 60px;
-            height: 60px;
-            line-height: 60px;
-            background: linear-gradient(135deg, #D4AF37, #8B4513);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--gold), var(--brown));
             color: white;
             border-radius: 50%;
             font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 700;
             margin-bottom: 1rem;
-            animation: rotateIn 1s ease;
+            transition: transform 0.3s ease;
         }
 
-        .feature-item h3 {
-            color: #8B4513;
-            margin-bottom: 0.5rem;
+        .feature-item:hover .feature-number {
+            transform: scale(1.1) rotate(360deg);
         }
 
-        /* Stats */
+        /* Stats with Count Animation */
         .stats-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
             background: white;
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
 
         .stat-item {
             text-align: center;
-            padding: 1rem;
         }
 
         .stat-number {
             font-size: 2.5rem;
-            font-weight: bold;
-            color: #D4AF37;
-            display: block;
-            animation: countUp 2s ease;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold), var(--brown));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .stat-label {
-            color: #666;
+            color: var(--gray);
             margin-top: 0.5rem;
         }
 
-        /* Contact */
+        /* Contact Section */
         .contact {
-            background: #f8f8f8;
+            padding: 5rem 0;
         }
 
         .contact-content {
@@ -573,125 +611,115 @@
         }
 
         .contact-info h3 {
-            color: #8B4513;
+            color: var(--brown);
             margin-bottom: 2rem;
         }
 
         .info-item {
             margin-bottom: 1.5rem;
-            animation: slideInLeft 0.8s ease;
         }
 
         .info-item strong {
-            color: #8B4513;
+            color: var(--brown);
             display: block;
             margin-bottom: 0.5rem;
-        }
-
-        .contact-form h3 {
-            color: #8B4513;
-            margin-bottom: 1.5rem;
         }
 
         .contact-form input,
         .contact-form select,
         .contact-form textarea {
             width: 100%;
-            padding: 0.8rem;
+            padding: 1rem;
             margin-bottom: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            background: #fafafa;
+            transition: all 0.3s ease;
         }
 
         .contact-form input:focus,
         .contact-form select:focus,
         .contact-form textarea:focus {
-            border-color: #D4AF37;
-            box-shadow: 0 0 10px rgba(212,175,55,0.2);
             outline: none;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            border-color: var(--gold);
+            background: white;
         }
 
         .submit-btn {
+            width: 100%;
             padding: 1rem 2rem;
-            background: linear-gradient(135deg, #D4AF37, #8B4513);
+            background: linear-gradient(135deg, var(--gold), var(--brown));
             color: white;
             border: none;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: 10px;
+            font-weight: 600;
             cursor: pointer;
-            width: 100%;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
         }
 
         /* Newsletter */
         .newsletter {
-            background: linear-gradient(135deg, #D4AF37, #8B4513);
-            padding: 3rem 20px;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, var(--gold), var(--brown));
             color: white;
         }
 
         .newsletter-content {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 2rem;
+            text-align: center;
+            padding: 0 20px;
         }
 
         .newsletter-form {
             display: flex;
             gap: 1rem;
+            margin-top: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .newsletter-form input {
-            padding: 0.8rem 1.5rem;
+            flex: 1;
+            padding: 1rem;
             border: none;
-            border-radius: 8px;
-            min-width: 300px;
+            border-radius: 50px;
+            font-size: 1rem;
         }
 
         .newsletter-form button {
-            padding: 0.8rem 2rem;
+            padding: 1rem 2rem;
             background: white;
-            color: #8B4513;
+            color: var(--brown);
             border: none;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: 50px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
         .newsletter-form button:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+            box-shadow: 0 5px 20px rgba(255,255,255,0.3);
         }
 
         /* Footer */
         .footer {
-            background: #2C2C2C;
+            background: var(--dark);
             color: white;
-            padding: 3rem 20px 1rem;
+            padding: 3rem 0 1rem;
         }
 
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 20px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
@@ -700,7 +728,7 @@
 
         .footer-column h3,
         .footer-column h4 {
-            color: #D4AF37;
+            color: var(--gold);
             margin-bottom: 1rem;
         }
 
@@ -708,243 +736,100 @@
             list-style: none;
         }
 
-        .footer-column ul li {
-            margin-bottom: 0.5rem;
-        }
-
         .footer-column a {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255,255,255,0.7);
             text-decoration: none;
-            transition: all 0.3s;
+            transition: color 0.3s ease;
         }
 
         .footer-column a:hover {
-            color: #D4AF37;
-            padding-left: 5px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+            color: var(--gold);
         }
 
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid #444;
-            color: rgba(255,255,255,0.6);
-            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
         }
 
-        /* Back to top */
+        /* Back to Top Button */
         .back-to-top {
             position: fixed;
             bottom: 30px;
             right: 30px;
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #D4AF37, #8B4513);
+            background: linear-gradient(135deg, var(--gold), var(--brown));
             color: white;
             border: none;
             border-radius: 50%;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             cursor: pointer;
-            display: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-        }
-
-        .back-to-top:hover {
-            transform: scale(1.1) rotate(360deg);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
         }
 
         .back-to-top.show {
-            display: block;
-            animation: slideInUp 0.5s ease;
+            opacity: 1;
+            visibility: visible;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
         }
 
-        @keyframes fadeInUp {
-            from { 
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInDown {
-            from { 
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInUp {
-            from { 
-                opacity: 0;
-                transform: translateY(100px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInLeft {
-            from { 
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-
-        @keyframes rotateIn {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes widthExpand {
-            from { width: 0; }
-            to { width: 60px; }
-        }
-
-        @keyframes countUp {
-            from { transform: scale(0); }
-            to { transform: scale(1); }
-        }
-
-        /* Particle styles */
-        .particle {
-            position: fixed;
-            pointer-events: none;
+        /* Scroll Reveal Animation */
+        .reveal {
             opacity: 0;
-            animation: particle 3s linear;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
         }
 
-        @keyframes particle {
-            0% {
-                transform: translate(0, 100vh) scale(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(100px, -100vh) scale(1);
-                opacity: 0;
-            }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Mobile */
+        /* Responsive */
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
             }
-            
+
             .hamburger {
                 display: block;
-                background: transparent;
+                background: none;
                 border: none;
                 cursor: pointer;
             }
-            
+
             .hamburger span {
                 display: block;
                 width: 25px;
                 height: 3px;
-                background: white;
+                background: var(--brown);
                 margin: 5px 0;
-                transition: all 0.3s;
+                transition: all 0.3s ease;
             }
-            
+
             .hero-title {
                 font-size: 2rem;
             }
-            
-            .search-row {
-                flex-direction: column;
-            }
 
-            .swap-btn {
-                display: none;
-            }
-            
-            .services-grid,
-            .destinations-grid,
-            .features-grid {
+            .search-row {
                 grid-template-columns: 1fr;
             }
-            
+
             .contact-content {
                 grid-template-columns: 1fr;
             }
 
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .newsletter-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
             .newsletter-form {
                 flex-direction: column;
-                width: 100%;
-            }
-            
-            .newsletter-form input {
-                min-width: auto;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .social-links {
-                justify-content: center;
             }
         }
     </style>
@@ -952,41 +837,29 @@
 <body>
     <!-- Header -->
     <header class="header">
-        <nav class="navbar">
-            <div class="nav-container">
-                <a href="#" class="logo">
-                    <div class="logo-text">
-                        <span class="logo-main">✈️ SkyfareHub</span>
-                        <span class="logo-sub">Your Journey Begins Here</span>
-                    </div>
-                </a>
-                <ul class="nav-menu">
-                    <li><a href="#home" class="nav-link active">Trang chủ</a></li>
-                    <li><a href="#services" class="nav-link">Dịch vụ</a></li>
-                    <li><a href="#destinations" class="nav-link">Điểm đến</a></li>
-                    <li><a href="#about" class="nav-link">Về chúng tôi</a></li>
-                    <li><a href="#contact" class="nav-link">Liên hệ</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <button class="btn-hotline">
-                        <span>📞 19000080</span>
-                    </button>
-                    <button class="hamburger">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
-            </div>
+        <nav class="nav-container">
+            <a href="#" class="logo">✈️ SkyfareHub</a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Trang chủ</a></li>
+                <li><a href="#services" class="nav-link">Dịch vụ</a></li>
+                <li><a href="#destinations" class="nav-link">Điểm đến</a></li>
+                <li><a href="#contact" class="nav-link">Liên hệ</a></li>
+            </ul>
+            <button class="btn-hotline">📞 19000080</button>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section id="home" class="hero">
         <div class="hero-content">
             <h1 class="hero-title">
-                <span class="title-line1">Kết nối bầu trời</span>
-                <span class="title-line2">Khám phá thế giới</span>
+                <span>Kết nối bầu trời</span>
+                <span>Khám phá thế giới</span>
             </h1>
             <p class="hero-description">
                 Trải nghiệm dịch vụ đặt vé máy bay và tour du lịch chuyên nghiệp với giá tốt nhất thị trường
@@ -994,47 +867,36 @@
             
             <div class="search-container">
                 <div class="search-tabs">
-                    <button class="tab-btn active" data-tab="flights">✈️ Vé máy bay</button>
-                    <button class="tab-btn" data-tab="hotels">🏨 Khách sạn</button>
-                    <button class="tab-btn" data-tab="tours">🎫 Tour du lịch</button>
+                    <button class="tab-btn active">✈️ Vé máy bay</button>
+                    <button class="tab-btn">🏨 Khách sạn</button>
+                    <button class="tab-btn">🎫 Tour du lịch</button>
                 </div>
                 
-                <div class="search-box active" id="flights-search">
-                    <div class="search-row">
-                        <div class="search-group">
-                            <label>Điểm đi</label>
-                            <input type="text" placeholder="Hà Nội (HAN)" class="search-input">
-                        </div>
-                        <button class="swap-btn">⇄</button>
-                        <div class="search-group">
-                            <label>Điểm đến</label>
-                            <input type="text" placeholder="TP. Hồ Chí Minh (SGN)" class="search-input">
-                        </div>
-                        <div class="search-group">
-                            <label>Ngày đi</label>
-                            <input type="date" class="search-input">
-                        </div>
-                        <div class="search-group">
-                            <label>Ngày về</label>
-                            <input type="date" class="search-input">
-                        </div>
-                        <div class="search-group">
-                            <label>Hành khách</label>
-                            <select class="search-input">
-                                <option>1 Người lớn</option>
-                                <option>2 Người lớn</option>
-                                <option>3 Người lớn</option>
-                            </select>
-                        </div>
+                <div class="search-row">
+                    <div class="search-group">
+                        <label>Điểm đi</label>
+                        <input type="text" class="search-input" placeholder="Hà Nội (HAN)">
                     </div>
-                    <button class="search-btn">🔍 Tìm chuyến bay</button>
+                    <div class="search-group">
+                        <label>Điểm đến</label>
+                        <input type="text" class="search-input" placeholder="TP.HCM (SGN)">
+                    </div>
+                    <div class="search-group">
+                        <label>Ngày đi</label>
+                        <input type="date" class="search-input">
+                    </div>
+                    <div class="search-group">
+                        <label>Ngày về</label>
+                        <input type="date" class="search-input">
+                    </div>
                 </div>
+                <button class="search-btn">Tìm chuyến bay</button>
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="services">
+    <!-- Services -->
+    <section id="services" class="services reveal">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Dịch vụ của chúng tôi</h2>
@@ -1045,7 +907,7 @@
                 <div class="service-card">
                     <div class="service-icon">✈️</div>
                     <h3>Vé máy bay giá rẻ</h3>
-                    <p>Cung cấp vé máy bay với giá ưu đãi từ hơn 100 hãng hàng không</p>
+                    <p>Cung cấp vé máy bay với giá ưu đãi từ hơn 1000 hãng hàng không</p>
                     <ul class="service-features">
                         <li>Giá vé cạnh tranh nhất</li>
                         <li>Đặt vé online 24/7</li>
@@ -1069,50 +931,17 @@
                     <h3>Tour du lịch trọn gói</h3>
                     <p>Tour du lịch chất lượng cao với lịch trình chi tiết</p>
                     <ul class="service-features">
-                        <li>Tour trong nước và quốc tế</li>
+                        <li>Tour trong nước & quốc tế</li>
                         <li>Bảo hiểm du lịch</li>
                         <li>Xe đưa đón tận nơi</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🚗</div>
-                    <h3>Thuê xe du lịch</h3>
-                    <p>Dịch vụ cho thuê xe đa dạng từ 4 chỗ đến 45 chỗ</p>
-                    <ul class="service-features">
-                        <li>Xe đời mới, chất lượng</li>
-                        <li>Tài xế kinh nghiệm</li>
-                        <li>Giá cả minh bạch</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">📄</div>
-                    <h3>Visa và Bảo hiểm</h3>
-                    <p>Hỗ trợ làm visa nhanh chóng và các gói bảo hiểm du lịch</p>
-                    <ul class="service-features">
-                        <li>Visa các nước</li>
-                        <li>Bảo hiểm du lịch quốc tế</li>
-                        <li>Tư vấn thủ tục miễn phí</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">💰</div>
-                    <h3>Ưu đãi đặc biệt</h3>
-                    <p>Cập nhật liên tục các chương trình khuyến mãi hấp dẫn</p>
-                    <ul class="service-features">
-                        <li>Giảm giá theo mùa</li>
-                        <li>Ưu đãi nhóm, gia đình</li>
-                        <li>Tích điểm thưởng</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Destinations Section -->
-    <section id="destinations" class="destinations">
+    <!-- Destinations -->
+    <section id="destinations" class="destinations reveal">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Điểm đến phổ biến</h2>
@@ -1126,10 +955,7 @@
                             <span class="destination-label">Hot Deal</span>
                             <h3>Đà Nẵng</h3>
                             <p>Thành phố biển xinh đẹp</p>
-                            <div class="destination-price">
-                                <span class="price-from">Từ</span>
-                                <span class="price-amount">899.000₫</span>
-                            </div>
+                            <span class="price-amount">899.000₫</span>
                         </div>
                     </div>
                 </div>
@@ -1139,10 +965,7 @@
                         <div class="destination-content">
                             <h3>Phú Quốc</h3>
                             <p>Đảo ngọc thiên đường</p>
-                            <div class="destination-price">
-                                <span class="price-from">Từ</span>
-                                <span class="price-amount">1.299.000₫</span>
-                            </div>
+                            <span class="price-amount">1.299.000₫</span>
                         </div>
                     </div>
                 </div>
@@ -1152,10 +975,7 @@
                         <div class="destination-content">
                             <h3>Nha Trang</h3>
                             <p>Vịnh biển đẹp nhất</p>
-                            <div class="destination-price">
-                                <span class="price-from">Từ</span>
-                                <span class="price-amount">799.000₫</span>
-                            </div>
+                            <span class="price-amount">799.000₫</span>
                         </div>
                     </div>
                 </div>
@@ -1165,10 +985,7 @@
                         <div class="destination-content">
                             <h3>Đà Lạt</h3>
                             <p>Thành phố ngàn hoa</p>
-                            <div class="destination-price">
-                                <span class="price-from">Từ</span>
-                                <span class="price-amount">699.000₫</span>
-                            </div>
+                            <span class="price-amount">699.000₫</span>
                         </div>
                     </div>
                 </div>
@@ -1177,7 +994,7 @@
     </section>
 
     <!-- Why Choose Us -->
-    <section id="why-us" class="why-us">
+    <section id="why-us" class="why-us reveal">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Tại sao chọn SkyfareHub?</h2>
@@ -1188,48 +1005,48 @@
                 <div class="feature-item">
                     <div class="feature-number">01</div>
                     <h3>Giá cả cạnh tranh</h3>
-                    <p>Cam kết giá tốt nhất thị trường với nhiều ưu đãi hấp dẫn</p>
+                    <p>Cam kết giá tốt nhất thị trường</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-number">02</div>
                     <h3>Đặt vé nhanh chóng</h3>
-                    <p>Hệ thống đặt vé online 24/7, xác nhận ngay lập tức</p>
+                    <p>Hệ thống đặt vé online 24/7</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-number">03</div>
                     <h3>Hỗ trợ tận tình</h3>
-                    <p>Đội ngũ tư vấn chuyên nghiệp, hỗ trợ khách hàng 24/7</p>
+                    <p>Đội ngũ tư vấn chuyên nghiệp</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-number">04</div>
                     <h3>Thanh toán an toàn</h3>
-                    <p>Đa dạng hình thức thanh toán, bảo mật tuyệt đối</p>
+                    <p>Bảo mật tuyệt đối</p>
                 </div>
             </div>
             
             <div class="stats-container">
                 <div class="stat-item">
-                    <span class="stat-number">1M+</span>
-                    <span class="stat-label">Khách hàng tin tưởng</span>
+                    <div class="stat-number" data-target="1000000">0</div>
+                    <div class="stat-label">Khách hàng</div>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">500+</span>
-                    <span class="stat-label">Đối tác hàng không</span>
+                    <div class="stat-number" data-target="500">0</div>
+                    <div class="stat-label">Đối tác</div>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">1000+</span>
-                    <span class="stat-label">Tour du lịch</span>
+                    <div class="stat-number" data-target="1000">0</div>
+                    <div class="stat-label">Tour</div>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">98%</span>
-                    <span class="stat-label">Hài lòng</span>
+                    <div class="stat-number" data-target="98">0</div>
+                    <div class="stat-label">% Hài lòng</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
+    <!-- Contact -->
+    <section id="contact" class="contact reveal">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Liên hệ với chúng tôi</h2>
@@ -1245,36 +1062,21 @@
                     </div>
                     <div class="info-item">
                         <strong>📞 Điện thoại:</strong>
-                        <p>VP: 024-73060080</p>
-                        <p>Hotline: 19000080</p>
+                        <p>024-73060080 | Hotline: 19000080</p>
                     </div>
                     <div class="info-item">
                         <strong>✉️ Email:</strong>
                         <p>admin@skyfarehub.vn</p>
                     </div>
-                    <div class="info-item">
-                        <strong>⏰ Giờ làm việc:</strong>
-                        <p>24/7 - Hỗ trợ mọi lúc</p>
-                    </div>
                 </div>
                 
                 <div class="contact-form">
-                    <h3>Gửi tin nhắn cho chúng tôi</h3>
                     <form>
-                        <div class="form-row">
-                            <input type="text" placeholder="Họ và tên" required>
-                            <input type="tel" placeholder="Số điện thoại" required>
-                        </div>
+                        <input type="text" placeholder="Họ và tên" required>
+                        <input type="tel" placeholder="Số điện thoại" required>
                         <input type="email" placeholder="Email" required>
-                        <select>
-                            <option>Chọn dịch vụ quan tâm</option>
-                            <option>Vé máy bay</option>
-                            <option>Tour du lịch</option>
-                            <option>Khách sạn</option>
-                            <option>Thuê xe</option>
-                        </select>
-                        <textarea placeholder="Nội dung tin nhắn..." rows="5"></textarea>
-                        <button type="submit" class="submit-btn">📨 Gửi tin nhắn</button>
+                        <textarea placeholder="Nội dung..." rows="5"></textarea>
+                        <button type="submit" class="submit-btn">Gửi tin nhắn</button>
                     </form>
                 </div>
             </div>
@@ -1284,12 +1086,10 @@
     <!-- Newsletter -->
     <section class="newsletter">
         <div class="newsletter-content">
-            <div class="newsletter-text">
-                <h3>Đăng ký nhận ưu đãi</h3>
-                <p>Nhận ngay thông tin về các chương trình khuyến mãi và ưu đãi đặc biệt</p>
-            </div>
+            <h3>Đăng ký nhận ưu đãi</h3>
+            <p>Nhận ngay thông tin khuyến mãi và ưu đãi đặc biệt</p>
             <form class="newsletter-form">
-                <input type="email" placeholder="Nhập email của bạn...">
+                <input type="email" placeholder="Email của bạn...">
                 <button type="submit">Đăng ký</button>
             </form>
         </div>
@@ -1300,66 +1100,54 @@
         <div class="footer-content">
             <div class="footer-column">
                 <h3>SkyfareHub</h3>
-                <p>Kết nối bầu trời, khám phá thế giới. Đối tác tin cậy cho mọi hành trình của bạn.</p>
-                <div class="social-links">
-                    <a href="#">Facebook</a>
-                    <a href="#">Instagram</a>
-                    <a href="#">Youtube</a>
-                </div>
+                <p>Kết nối bầu trời, khám phá thế giới</p>
             </div>
-            
             <div class="footer-column">
                 <h4>Dịch vụ</h4>
                 <ul>
-                    <li><a href="#">Vé máy bay nội địa</a></li>
-                    <li><a href="#">Vé máy bay quốc tế</a></li>
-                    <li><a href="#">Đặt phòng khách sạn</a></li>
+                    <li><a href="#">Vé máy bay</a></li>
+                    <li><a href="#">Khách sạn</a></li>
                     <li><a href="#">Tour du lịch</a></li>
                 </ul>
             </div>
-            
             <div class="footer-column">
                 <h4>Hỗ trợ</h4>
                 <ul>
-                    <li><a href="#">Hướng dẫn đặt vé</a></li>
-                    <li><a href="#">Phương thức thanh toán</a></li>
-                    <li><a href="#">Chính sách hoàn vé</a></li>
-                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                    <li><a href="#">Hướng dẫn</a></li>
+                    <li><a href="#">Chính sách</a></li>
+                    <li><a href="#">FAQ</a></li>
                 </ul>
             </div>
-            
             <div class="footer-column">
-                <h4>Về chúng tôi</h4>
+                <h4>Liên hệ</h4>
                 <ul>
-                    <li><a href="#">Giới thiệu công ty</a></li>
-                    <li><a href="#">Tuyển dụng</a></li>
-                    <li><a href="#">Tin tức</a></li>
-                    <li><a href="#">Liên hệ</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Youtube</a></li>
                 </ul>
             </div>
         </div>
-        
         <div class="footer-bottom">
-            <p>© 2024 Công ty TNHH SkyfareHub. Giấy phép kinh doanh số: 0123456789</p>
-            <p>Địa chỉ: 452 Xã Đàn, Đống Đa, Hà Nội | Điện thoại: 024-73060080 | Hotline: 19000080</p>
+            <p>© 2025 Công ty TNHH SkyfareHub. Địa chỉ: 452 Xã Đàn, Hà Nội</p>
         </div>
     </footer>
 
-    <!-- Back to top button -->
+    <!-- Back to top -->
     <button class="back-to-top" id="backToTop">↑</button>
 
     <script>
-        // Parallax scrolling
+        // Header scroll effect
         window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            if (hero) {
-                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
             }
-            
-            // Show/hide back to top button
+
+            // Back to top button
             const backToTop = document.getElementById('backToTop');
-            if (scrolled > 500) {
+            if (window.scrollY > 500) {
                 backToTop.classList.add('show');
             } else {
                 backToTop.classList.remove('show');
@@ -1371,22 +1159,62 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
+        // Reveal on scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+
+        // Counter animation
+        const counters = document.querySelectorAll('.stat-number');
+        const speed = 200;
+
+        const countUp = () => {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const inc = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(countUp, 10);
+                } else {
+                    counter.innerText = target.toLocaleString() + (target === 98 ? '%' : '+');
+                }
+            });
+        };
+
+        // Start counter when visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    countUp();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        const statsContainer = document.querySelector('.stats-container');
+        if (statsContainer) {
+            statsObserver.observe(statsContainer);
+        }
+
         // Tab switching
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-            });
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
             });
         });
 
@@ -1398,31 +1226,6 @@
                 form.reset();
             });
         });
-
-        // Create particles
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * window.innerWidth + 'px';
-            particle.style.width = particle.style.height = Math.random() * 5 + 3 + 'px';
-            particle.style.background = `linear-gradient(${Math.random() * 360}deg, #D4AF37, #8B4513)`;
-            particle.style.borderRadius = '50%';
-            document.body.appendChild(particle);
-            
-            setTimeout(() => particle.remove(), 3000);
-        }
-
-        // Create particle every 500ms
-        setInterval(createParticle, 500);
-
-        // Mobile menu
-        const hamburger = document.querySelector('.hamburger');
-        const navMenu = document.querySelector('.nav-menu');
-        if (hamburger) {
-            hamburger.addEventListener('click', () => {
-                navMenu.classList.toggle('active');
-            });
-        }
     </script>
 </body>
 </html>
