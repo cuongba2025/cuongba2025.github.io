@@ -5,55 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skyfarehub.vn - Coming Soon</title>
   <style>
-    body {
+    /* Reset */
+    * {
       margin: 0;
       padding: 0;
-      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      overflow: hidden;
       color: #fff;
+    }
+
+    /* Background gradient animation */
+    body {
+      background: linear-gradient(-45deg, #1e3c72, #2a5298, #00c6ff, #0072ff);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
       text-align: center;
     }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
     .container {
-      max-width: 600px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.35);
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-    }
-    .button {
-      display: inline-block;
-      padding: 12px 24px;
-      font-size: 1rem;
-      font-weight: bold;
-      color: #4facfe;
-      background: #fff;
-      border-radius: 30px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-    .button:hover {
-      background: #e6f3ff;
-      transform: translateY(-2px);
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>🚀 Skyfarehub.vn</h1>
-    <p>Website đang được xây dựng. Chúng tôi sẽ sớm ra mắt với trải nghiệm tuyệt vời nhất dành cho bạn.</p>
-    <a href="mailto:contact@skyfarehub.vn" class="button">Liên hệ ngay</a>
-  </div>
-</body>
-</html>
+      max-width: 700px;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0
