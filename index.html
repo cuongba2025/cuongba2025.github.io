@@ -5,12 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skyfarehub.vn - Coming Soon</title>
   <style>
-    /* Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * {margin: 0; padding: 0; box-sizing: border-box;}
     body, html {
       height: 100%;
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -35,6 +30,129 @@
     }
 
     .container {
-      max-width: 700px;
+      max-width: 750px;
       padding: 40px;
-      background: rgba(0, 0, 0, 0
+      background: rgba(0, 0, 0, 0.55);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      backdrop-filter: blur(6px);
+      animation: fadeIn 2s ease forwards;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(40px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #00ffea;
+      text-shadow: 0 0 10px rgba(0,255,234,0.7),
+                   0 0 20px rgba(0,255,234,0.6),
+                   0 0 30px rgba(0,255,234,0.5);
+    }
+
+    p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      color: #f1f1f1;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .countdown div {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 12px;
+      min-width: 80px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .countdown span {
+      display: block;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #00ffae;
+    }
+    .countdown small {
+      font-size: 0.9rem;
+      color: #ddd;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .button:hover {
+      transform: scale(1.05) translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    .contact {
+      margin-top: 25px;
+      font-size: 1.2rem;
+      color: #fff;
+    }
+    .contact span {
+      font-weight: bold;
+      color: #00ffae;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Skyfarehub.vn</h1>
+    <p>Website đang được xây dựng.<br>
+       Chúng tôi sẽ chính thức ra mắt vào ngày <b>23/09</b>!</p>
+
+    <!-- Countdown -->
+    <div class="countdown" id="countdown">
+      <div><span id="days">0</span><small>Ngày</small></div>
+      <div><span id="hours">0</span><small>Giờ</small></div>
+      <div><span id="minutes">0</span><small>Phút</small></div>
+      <div><span id="seconds">0</span><small>Giây</small></div>
+    </div>
+
+    <a href="tel:19000080" class="button">📞 Gọi ngay 19000080</a>
+    <div class="contact">Hoặc liên hệ qua số: <span>19000080</span></div>
+  </div>
+
+  <script>
+    // Thiết lập ngày đích
+    const launchDate = new Date("Sep 23, 2025 00:00:00").getTime();
+
+    const timer = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = launchDate - now;
+
+      if (distance < 0) {
+        clearInterval(timer);
+        document.getElementById("countdown").innerHTML = "<p style='font-size:1.5rem; color:#00ffae;'>🎉 Chúng tôi đã sẵn sàng!</p>";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerText = days;
+      document.getElementById("hours").innerText = hours;
+      document.getElementById("minutes").innerText = minutes;
+      document.getElementById("seconds").innerText = seconds;
+    }, 1000);
+  </script>
+</body>
+</html>
