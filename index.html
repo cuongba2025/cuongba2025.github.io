@@ -7,42 +7,49 @@
   <style>
     * {margin: 0; padding: 0; box-sizing: border-box;}
     html, body { height: 100%; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #fff; }
+    
+    /* NỀN TĨNH CAO CẤP: Giải cứu GPU về mức mượt mà 0% */
     body {
       background: #1e3c72;
       background: linear-gradient(135deg, #1e3c72, #2a5298, #0072ff);
       background-attachment: fixed;
       display: flex; justify-content: center; align-items: center; text-align: center; padding: 20px;
     }
+    
     .container {
       width: 100%; max-width: 700px; padding: 40px 20px; background: rgba(0, 0, 0, 0.55);
       border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
     }
     h1 { font-size: 3rem; margin-bottom: 20px; color: #00ffea; text-shadow: 0 0 10px rgba(0,255,234,0.7); }
     p { font-size: 1.3rem; margin-bottom: 30px; line-height: 1.6; color: #f1f1f1; }
+    
     .countdown { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
     .countdown div { background: rgba(255, 255, 255, 0.1); padding: 18px; border-radius: 12px; min-width: 85px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
     .countdown span { display: block; font-size: 2rem; font-weight: bold; color: #00ffae; }
     .countdown small { font-size: 0.9rem; color: #ddd; }
+    
     .button { display: inline-block; padding: 14px 35px; font-size: 1.1rem; font-weight: bold; color: #fff; background: linear-gradient(135deg, #00c6ff, #0072ff); border-radius: 50px; text-decoration: none; }
     .contact { margin-top: 25px; font-size: 1.2rem; }
     .contact span { font-weight: bold; color: #00ffae; }
 
-    /* ==================== KHU VỰC BOX CHAT PHÁ CACHE CHROME ==================== */
+    /* ==================== BOX CHAT CHUẨN ĐÉT THƯƠNG HIỆU BAYDEP AI ==================== */
     #sfh-v-panel { position: fixed; bottom: 25px; right: 25px; z-index: 999999; text-align: left; }
     #sfh-v-trigger { width: 60px; height: 60px; background: linear-gradient(135deg, #00ffea, #0072ff); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 20px rgba(0, 255, 234, 0.4); position: relative; }
     #sfh-v-badge { position: absolute; top: -3px; right: -3px; background: #ff3b30; color: white; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 10px; border: 2px solid #1e3c72; }
     #sfh-v-box { width: 420px; height: 550px; background: rgba(255, 255, 255, 0.98); border-radius: 20px; box-shadow: 0 10px 35px rgba(0,0,0,0.3); display: flex; flex-direction: column; overflow: hidden; position: absolute; bottom: 75px; right: 0; transition: all 0.25s ease; transform-origin: bottom right; }
     #sfh-v-box.sfh-v-hide { transform: scale(0); opacity: 0; pointer-events: none; }
+    
     #sfh-v-head { background: linear-gradient(135deg, #1e3c72, #0072ff); color: white; padding: 18px; display: flex; align-items: center; gap: 12px; position: relative; }
     .sfh-v-pfp { width: 38px; height: 38px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
     .sfh-v-status { font-size: 11px; color: #00ffae; font-weight: bold; }
     #sfh-v-close { position: absolute; right: 18px; top: 24px; cursor: pointer; font-size: 16px; }
+    
     #sfh-v-body { flex: 1; padding: 15px; overflow-y: auto; background: #f4f7f6; display: flex; flex-direction: column; gap: 12px; }
     .sfh-v-row { max-width: 88%; padding: 11px 15px; border-radius: 16px; font-size: 14px; line-height: 1.5; color: #333; }
     .sfh-v-sys { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
     .sfh-v-usr { background: #0072ff; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
     
-    /* 🛠️ HIỆU ỨNG 3 DẤU CHẤM DẬP DÌNH: ĐỠ SỐT RUỘT THEO YÊU CẦU ĐẠI CA */
+    /* HIỆU ỨNG 3 DẤU CHẤM NHẤP NHÁY CHỐNG SỐT RUỘT */
     .sfh-v-dots { background: transparent; box-shadow: none; padding: 5px 10px; display: flex; gap: 4px; align-items: center; }
     .sfh-v-dots span { width: 8px; height: 8px; background: #0072ff; border-radius: 50%; display: inline-block; animation: sfhBlink 1.4s infinite both; }
     .sfh-v-dots span:nth-child(2) { animation-delay: .2s; }
@@ -57,7 +64,7 @@
 <body>
 
   <div class="container">
-    <h1>🚀 Skyfarehub.vn (Bản Mới Có AI)</h1>
+    <h1>🚀 Skyfarehub.vn</h1>
     <p>Website đang được xây dựng.<br>Chúng tôi sẽ chính thức ra mắt vào ngày <b>23/09</b>!</p>
     <div class="countdown" id="countdown">
       <div><span id="days">0</span><small>Ngày</small></div>
@@ -77,14 +84,17 @@
     <div id="sfh-v-box" class="sfh-v-hide">
       <div id="sfh-v-head">
         <div class="sfh-v-pfp">🤖</div>
-        <div><strong>Tổng Đài Trợ Lý Ảo</strong><div class="sfh-v-status">Mạng Gemini 2.5 Pro Siêu Tốc</div></div>
+        <div>
+          <strong>Baydep AI 2026</strong>
+          <div class="sfh-v-status">Siêu AI Baydep 2026</div>
+        </div>
         <span id="sfh-v-close" onclick="toggleSfhV()">✕</span>
       </div>
       <div id="sfh-v-body">
-        <div class="sfh-v-row sfh-v-sys">Dạ em chào anh Cường! Tổng đài siêu AI Gemini 2.5 Pro chạy dòng chữ trực tiếp đã thông mạch. Anh test tốc độ phụt chữ của em đi ạ!</div>
+        <div class="sfh-v-row sfh-v-sys">Dạ em chào Anh/Chị! Tổng đài siêu trợ lý ảo Baydep AI 2026 đã thông mạch kết nối thành công. Anh/Chị cần em hỗ trợ tư vấn thông tin dịch vụ gì ạ?</div>
       </div>
       <div id="sfh-v-foot">
-        <input type="text" id="sfh-v-input" placeholder="Nhập câu hỏi test tốc độ..." onkeypress="handleSfhVKey(event)">
+        <input type="text" id="sfh-v-input" placeholder="Nhập câu hỏi tại đây..." onkeypress="handleSfhVKey(event)">
         <button id="sfh-v-btn" onclick="sendSfhVMsg()">Gửi</button>
       </div>
     </div>
@@ -106,7 +116,6 @@
     function toggleSfhV() { const box = document.getElementById('sfh-v-box'); box.classList.toggle('sfh-v-hide'); if(!box.classList.contains('sfh-v-hide')) document.getElementById('sfh-v-input').focus(); }
     function handleSfhVKey(e) { if (e.key === 'Enter') sendSfhVMsg(); }
 
-    // ⚡ XỬ LÝ ĐỌC STREAM CHỮ CHẠY RÀO RÀO THEO THỜI GIAN THỰC
     async function sendSfhVMsg() {
       if(运作) return;
       const input = document.getElementById('sfh-v-input'); const body = document.getElementById('sfh-v-body'); const text = input.value.trim();
@@ -116,7 +125,6 @@
       const uDiv = document.createElement('div'); uDiv.className = 'sfh-v-row sfh-v-usr'; uDiv.innerText = text; body.appendChild(uDiv);
       input.value = ''; body.scrollTop = body.scrollHeight;
 
-      // Hiện 3 dấu chấm dập dình cho anh đỡ sốt ruột đúng nghĩa đen
       const lDiv = document.createElement('div'); lDiv.className = 'sfh-v-row sfh-v-dots'; lDiv.id = 'sfh-v-loading';
       lDiv.innerHTML = '<span></span><span></span><span></span>'; body.appendChild(lDiv); body.scrollTop = body.scrollHeight;
 
@@ -126,8 +134,6 @@
         });
 
         document.getElementById('sfh-v-loading').remove();
-        
-        // Tạo ô trống chứa câu trả lời để đổ chữ vào từ từ
         const sDiv = document.createElement('div'); sDiv.className = 'sfh-v-row sfh-v-sys'; sDiv.innerHTML = ""; body.appendChild(sDiv);
 
         const reader = response.body.getReader(); const decoder = new TextDecoder("utf-8");
@@ -146,8 +152,7 @@
                 const parsed = JSON.parse(dataStr);
                 const content = parsed.choices?.[0]?.delta?.content || "";
                 fullReply += content;
-                // Biên dịch bôi đậm và xuống dòng tức thì
-                sDiv.innerHTML = fullReply.replace(/\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+                sDiv.innerHTML = fullReply.replace(/\n/g, "<br>").replace(/\*\*(.*?)\*\//g, "<strong>$1</strong>");
                 body.scrollTop = body.scrollHeight;
               } catch(e) {}
             }
@@ -155,7 +160,7 @@
         }
       } catch (err) {
         if(document.getElementById('sfh-v-loading')) document.getElementById('sfh-v-loading').remove();
-        const eDiv = document.createElement('div'); eDiv.className = 'sfh-v-row sfh-v-sys'; eDiv.innerText = 'Đứt mạch kết nối, đại ca bấm gửi lại giúp em nhé!'; body.appendChild(eDiv);
+        const eDiv = document.createElement('div'); eDiv.className = 'sfh-v-row sfh-v-sys'; eDiv.innerText = 'Đứt mạch kết nối, Anh/Chị vui lòng bấm gửi lại giúp em nhé!'; body.appendChild(eDiv);
       }
       运作=false; body.scrollTop = body.scrollHeight;
     }
