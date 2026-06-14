@@ -6,36 +6,39 @@
   <title>Skyfarehub.vn - Bản Mới Có AI</title>
   <style>
     * {margin: 0; padding: 0; box-sizing: border-box;}
-    body, html {
+    
+    html, body {
       height: 100%;
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      overflow: hidden;
       color: #fff;
     }
 
-    /* Background chuyển động mượt mà */
+    /* ĐỔI NỀN TĨNH CAO CẤP: Giải cứu GPU về 0%, mượt mà tuyệt đối */
     body {
-      background: linear-gradient(-45deg, #1e3c72, #2a5298, #00c6ff, #0072ff);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      background: #1e3c72;
+      background: linear-gradient(135deg, #1e3c72, #2a5298, #0072ff);
+      background-attachment: fixed;
       display: flex;
       justify-content: center;
       align-items: center;
       text-align: center;
-    }
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+      padding: 20px;
     }
 
     .container {
-      max-width: 750px;
-      padding: 40px;
+      width: 100%;
+      max-width: 700px;
+      padding: 40px 20px;
       background: rgba(0, 0, 0, 0.55);
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
       backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      animation: fadeIn 1.2s ease forwards;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
     }
 
     h1 {
@@ -52,17 +55,18 @@
       color: #f1f1f1;
     }
 
+    /* BỐ CỤC ĐẾM NGƯỢC: Chuẩn 4 ô hiển thị song song mượt mà */
     .countdown {
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 15px;
       margin-bottom: 30px;
     }
     .countdown div {
       background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
+      padding: 18px;
       border-radius: 12px;
-      min-width: 80px;
+      min-width: 85px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
     .countdown span {
@@ -78,19 +82,25 @@
 
     .button {
       display: inline-block;
-      padding: 14px 30px;
+      padding: 14px 35px;
       font-size: 1.1rem;
       font-weight: bold;
       color: #fff;
       background: linear-gradient(135deg, #00c6ff, #0072ff);
       border-radius: 50px;
       text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .button:hover {
+      transform: scale(1.03) translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
 
     .contact { margin-top: 25px; font-size: 1.2rem; }
     .contact span { font-weight: bold; color: #00ffae; }
 
-    /* ==================== MÃ CSS ẨN DANH (NÉ ADBLOCK CHROME) ==================== */
+    /* ==================== MÃ CSS ẨN DANH (VƯỢT QUA ADBLOCK CHROME) ==================== */
     #sfh-v-panel {
       position: fixed;
       bottom: 25px;
@@ -109,6 +119,10 @@
       cursor: pointer;
       box-shadow: 0 4px 20px rgba(0, 255, 234, 0.4);
       position: relative;
+      transition: all 0.2s ease;
+    }
+    #sfh-v-trigger:hover {
+      transform: scale(1.05);
     }
     #sfh-v-badge {
       position: absolute;
@@ -126,7 +140,7 @@
     #sfh-v-box {
       width: 380px;
       height: 520px;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(10px);
       border-radius: 20px;
       box-shadow: 0 10px 35px rgba(0,0,0,0.3);
@@ -134,9 +148,9 @@
       flex-direction: column;
       overflow: hidden;
       position: absolute;
-      bottom: 80px;
+      bottom: 75px;
       right: 0;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       transform-origin: bottom right;
     }
     #sfh-v-box.sfh-v-hide {
@@ -165,16 +179,18 @@
       font-size: 20px;
     }
     .sfh-v-status { font-size: 11px; color: #00ffae; font-weight: bold; }
-    #sfh-v-close { position: absolute; right: 18px; top: 24px; cursor: pointer; font-size: 16px; }
+    #sfh-v-close { position: absolute; right: 18px; top: 24px; cursor: pointer; font-size: 16px; opacity: 0.7; }
+    #sfh-v-close:hover { opacity: 1; }
     
     #sfh-v-body { flex: 1; padding: 15px; overflow-y: auto; background: #f4f7f6; display: flex; flex-direction: column; gap: 12px; }
     .sfh-v-row { max-width: 85%; padding: 11px 15px; border-radius: 16px; font-size: 14px; line-height: 1.5; color: #333; }
     .sfh-v-sys { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
-    .sfh-v-usr { background: #0072ff; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
-    .sfh-v-wait { font-style: italic; color: #666; }
+    .sfh-v-usr { background: #0072ff; color: white; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 2px 6px rgba(0, 114, 255, 0.2); }
+    .sfh-v-wait { font-style: italic; color: #666; background: transparent; box-shadow: none; padding-left: 0; }
     
     #sfh-v-foot { padding: 12px; background: white; border-top: 1px solid #eee; display: flex; gap: 8px; }
     #sfh-v-input { flex: 1; padding: 10px 16px; border: 1px solid #e0e0e0; border-radius: 24px; outline: none; font-size: 14px; color: #333; }
+    #sfh-v-input:focus { border-color: #0072ff; }
     #sfh-v-btn { background: linear-gradient(135deg, #00c6ff, #0072ff); color: white; border: none; padding: 0 18px; border-radius: 24px; font-weight: bold; cursor: pointer; }
   </style>
 </head>
@@ -208,13 +224,13 @@
         <div class="sfh-v-pfp">🤖</div>
         <div>
           <strong>Tổng Đài Trợ Lý Ảo</strong>
-          <div class="sfh-v-status">Mạng Hợp Lực 3 AI</div>
+          <div class="sfh-v-status">Mạng Hợp Lực AI</div>
         </div>
         <span id="sfh-v-close" onclick="toggleSfhV()">✕</span>
       </div>
       
       <div id="sfh-v-body">
-        <div class="sfh-v-row sfh-v-sys">Dạ thưa anh Cường, hệ thống kết hợp 3 AI đã thông suốt trên Chrome desktop. Anh cần em hỗ trợ kiểm tra hay tư vấn dịch vụ gì ạ?</div>
+        <div class="sfh-v-row sfh-v-sys">Dạ thưa anh Cường, hệ thống tích hợp AI đã thông suốt trên Chrome desktop, máy chạy mát rượi 0% GPU. Anh cần em hỗ trợ kiểm tra hay tư vấn dịch vụ gì ạ?</div>
       </div>
 
       <div id="sfh-v-foot">
@@ -225,7 +241,7 @@
   </div>
 
   <script>
-    // Đồng hồ đếm ngược mượt mà chuẩn năm
+    // 1. Logic đồng hồ đếm ngược
     const launchDate = new Date("Sep 23, 2026 00:00:00").getTime();
     setInterval(function() {
       const now = new Date().getTime();
@@ -238,7 +254,7 @@
       }
     }, 1000);
 
-    // Xử lý đóng mở bảng điều khiển
+    // 2. Xử lý đóng mở hộp chat
     function toggleSfhV() {
       const box = document.getElementById('sfh-v-box');
       box.classList.toggle('sfh-v-hide');
@@ -249,6 +265,7 @@
 
     function handleSfhVKey(e) { if (e.key === 'Enter') sendSfhVMsg(); }
 
+    // 3. Xử lý gửi tin nhắn lên Cloudflare Worker
     async function sendSfhVMsg() {
       const input = document.getElementById('sfh-v-input');
       const body = document.getElementById('sfh-v-body');
@@ -256,6 +273,7 @@
       
       if (!text) return;
 
+      // Đẩy tin nhắn của khách lên khung chat
       const uDiv = document.createElement('div');
       uDiv.className = 'sfh-v-row sfh-v-usr';
       uDiv.innerText = text;
@@ -264,14 +282,16 @@
       input.value = '';
       body.scrollTop = body.scrollHeight;
 
+      // Tạo thông báo trạng thái suy nghĩ
       const lDiv = document.createElement('div');
       lDiv.className = 'sfh-v-row sfh-v-sys sfh-v-wait';
       lDiv.id = 'sfh-v-loading';
-      lDiv.innerText = 'Dạ anh chờ vài giây để 3 AI xử lý dữ liệu...';
+      lDiv.innerText = 'Dạ anh chờ vài giây để AI phân tích và biên tập dữ liệu...';
       body.appendChild(lDiv);
       body.scrollTop = body.scrollHeight;
 
       try {
+        // Gọi mạch kết nối thẳng sang Cloudflare Worker baydep
         const res = await fetch("https://baydep.buianhcuong2018.workers.dev/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -281,8 +301,9 @@
         const data = await res.json();
         document.getElementById('sfh-v-loading').remove();
 
-        let reply = data.reply || "Hệ thống đang nghẽn mạch, anh gửi lại nhé.";
-        reply = reply.replace(/\n/g, "<br>").replace(/\*\*(.*?)\*\//g, "<strong>$1</strong>");
+        let reply = data.reply || "Dạ thưa anh, hệ thống đang bận tối ưu mạch, anh gửi lại câu hỏi nhé.";
+        // Định dạng Markdown bôi đậm và xuống dòng chuẩn chỉ
+        reply = reply.replace(/\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
         const sDiv = document.createElement('div');
         sDiv.className = 'sfh-v-row sfh-v-sys';
@@ -293,7 +314,7 @@
         if(document.getElementById('sfh-v-loading')) document.getElementById('sfh-v-loading').remove();
         const eDiv = document.createElement('div');
         eDiv.className = 'sfh-v-row sfh-v-sys';
-        eDiv.innerText = 'Lỗi kết nối máy chủ Worker, đại ca nhấn gửi lại giúp em!';
+        eDiv.innerText = 'Đường truyền nghẽn mạch kết nối Worker, đại ca bấm gửi lại giúp em!';
         body.appendChild(eDiv);
       }
       
