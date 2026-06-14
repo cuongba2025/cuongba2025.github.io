@@ -8,7 +8,6 @@
     * {margin: 0; padding: 0; box-sizing: border-box;}
     html, body { height: 100%; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #fff; }
     
-    /* NỀN TĨNH CAO CẤP: Tối ưu 0% GPU cho máy Dell Precision mát rượi */
     body {
       background: #1e3c72;
       background: linear-gradient(135deg, #1e3c72, #2a5298, #0072ff);
@@ -25,7 +24,6 @@
     h1 { font-size: 3.5rem; margin-bottom: 20px; color: #00ffea; text-shadow: 0 0 15px rgba(0,255,234,0.6); }
     p { font-size: 1.4rem; margin-bottom: 35px; line-height: 1.6; color: #e0e0e0; font-weight: 300; }
     
-    /* BỐ CỤC ĐỒNG HỒ ĐẾM NGƯỢC CHUẨN 01/07/2026 */
     .countdown { display: flex; justify-content: center; gap: 15px; margin-bottom: 35px; }
     .countdown div { background: rgba(255, 255, 255, 0.08); padding: 20px 10px; border-radius: 15px; min-width: 90px; border: 1px solid rgba(255, 255, 255, 0.05); }
     .countdown span { display: block; font-size: 2.2rem; font-weight: bold; color: #00ffae; }
@@ -37,7 +35,6 @@
     .contact { margin-top: 25px; font-size: 1.2rem; opacity: 0.9; }
     .contact span { font-weight: bold; color: #00ffae; }
 
-    /* ==================== BOX CHAT CHUẨN VIP THƯƠNG HIỆU BAYDEP AI ==================== */
     #sfh-v-panel { position: fixed; bottom: 25px; right: 25px; z-index: 999999; text-align: left; }
     #sfh-v-trigger { width: 65px; height: 65px; background: linear-gradient(135deg, #00ffea, #0072ff); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 25px rgba(0, 255, 234, 0.4); position: relative; transition: transform 0.2s ease; }
     #sfh-v-trigger:hover { transform: scale(1.05); }
@@ -81,8 +78,8 @@
       <div><span id="seconds">0</span><small>Giây</small></div>
     </div>
     
-    <a href="tel:19000080" class="button">📞 Liên hệ Team IT: 19000080</a>
-    <div class="contact">Hỗ trợ kỹ thuật: <span>19000080</span></div>
+    <a href="tel:19000080" class="button">📞 Liên hệ Team IT: 1900 0080</a>
+    <div class="contact">Hỗ trợ kỹ thuật: <span>1900 0080</span></div>
 
     <div style="margin-top: 30px; font-style: italic; font-size: 0.85rem; color: #bbb; opacity: 0.75; letter-spacing: 0.3px;">
       * Cần góp ý gì báo anh Cường trong Group Viber Góp Ý Quản Trị.
@@ -116,7 +113,6 @@
     function toggleSfhV() { var box = document.getElementById('sfh-v-box'); box.classList.toggle('sfh-v-hide'); if(!box.classList.contains('sfh-v-hide')) document.getElementById('sfh-v-input').focus(); }
     function handleSfhVKey(e) { if (e.key === 'Enter') sendSfhVMsg(); }
 
-    // ĐẾM NGƯỢC KHÓA MỐC 01/07/2026 CHUẨN XÁC
     var launchDate = new Date("Jul 01, 2026 00:00:00").getTime();
     setInterval(function() {
       var now = new Date().getTime(); var distance = launchDate - now;
@@ -150,15 +146,24 @@
         if(document.getElementById('sfh-v-loading')) document.getElementById('sfh-v-loading').remove();
         var sDiv = document.createElement('div'); sDiv.className = 'sfh-v-row sfh-v-sys'; sDiv.innerHTML = ""; body.appendChild(sDiv);
 
-        var reader = response.body.getReader(); var decoder = new TextDecoder("utf-8");
+        var reader = response.body.getReader(); 
+        var decoder = new TextDecoder("utf-8");
         var fullReply = "";
+        var buffer = ""; // ⚡ CỨU CÁNH CHÍNH LÀ ĐÂY: Biến bộ đệm ghép nối các gói tin vỡ
 
         while (true) {
-          var result = await reader.read(); if (result.done) break;
-          var chunk = decoder.decode(result.value, { stream: true });
-          var lines = chunk.split("\n");
+          var result = await reader.read(); 
+          if (result.done) break;
+          
+          // Cộng dồn dữ liệu vỡ vào bộ đệm thay vì xử lý ngay lập tức
+          buffer += decoder.decode(result.value, { stream: true });
+          var lines = buffer.split("\n");
+          
+          // Giữ lại phần đuôi chưa có dấu \n để ghép nối vào nhịp đọc tiếp theo
+          buffer = lines.pop(); 
+          
           for (var i = 0; i < lines.length; i++) {
-            var line = lines[i];
+            var line = lines[i].trim();
             if (line.startsWith("data: ")) {
               var dataStr = line.slice(6).trim();
               if (dataStr === "[DONE]") continue;
@@ -168,7 +173,9 @@
                 fullReply += content;
                 sDiv.innerHTML = fullReply.replace(/\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
                 body.scrollTop = body.scrollHeight;
-              } catch(e) {}
+              } catch(e) {
+                // Nếu vẫn có lỗi parse ngầm thì bỏ qua, không làm treo giao diện
+              }
             }
           }
         }
