@@ -4,34 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Baydep Super AI - Beta Version</title>
+
+  <!-- ⚡ Bắt tay sớm với Worker để chữ đầu tiên về nhanh hơn -->
+  <link rel="preconnect" href="https://baydep.buianhcuong2018.workers.dev" crossorigin>
+  <link rel="dns-prefetch" href="https://baydep.buianhcuong2018.workers.dev">
+
   <style>
-    * {margin: 0; padding: 0; box-sizing: border-box;}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #fff; }
-    
+
     body {
-      background: #1e3c72;
       background: linear-gradient(135deg, #1e3c72, #2a5298, #0072ff);
       background-attachment: fixed;
       display: flex; justify-content: center; align-items: center; text-align: center; padding: 20px;
     }
-    
+
     .container {
       width: 100%; max-width: 700px; padding: 45px 20px; background: rgba(0, 0, 0, 0.6);
       border-radius: 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
+
     h1 { font-size: 3.5rem; margin-bottom: 20px; color: #00ffea; text-shadow: 0 0 15px rgba(0,255,234,0.6); }
     p { font-size: 1.4rem; margin-bottom: 35px; line-height: 1.6; color: #e0e0e0; font-weight: 300; }
-    
+
     .countdown { display: flex; justify-content: center; gap: 15px; margin-bottom: 35px; }
     .countdown div { background: rgba(255, 255, 255, 0.08); padding: 20px 10px; border-radius: 15px; min-width: 90px; border: 1px solid rgba(255, 255, 255, 0.05); }
     .countdown span { display: block; font-size: 2.2rem; font-weight: bold; color: #00ffae; }
     .countdown small { font-size: 0.9rem; color: #bbb; text-transform: uppercase; letter-spacing: 1px; }
-    
-    .button { display: inline-block; padding: 15px 40px; font-size: 1.1rem; font-weight: bold; color: #fff; background: linear-gradient(135deg, #00c6ff, #0072ff); border-radius: 50px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(0,114,255,0.4); }
+
+    .button { display: inline-block; padding: 15px 40px; font-size: 1.1rem; font-weight: bold; color: #fff; background: linear-gradient(135deg, #00c6ff, #0072ff); border-radius: 50px; text-decoration: none; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 5px 20px rgba(0,114,255,0.4); }
     .button:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,114,255,0.5); }
-    
+
     .contact { margin-top: 25px; font-size: 1.2rem; opacity: 0.9; }
     .contact span { font-weight: bold; color: #00ffae; }
 
@@ -39,26 +43,26 @@
     #sfh-v-trigger { width: 65px; height: 65px; background: linear-gradient(135deg, #00ffea, #0072ff); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 25px rgba(0, 255, 234, 0.4); position: relative; transition: transform 0.2s ease; }
     #sfh-v-trigger:hover { transform: scale(1.05); }
     #sfh-v-badge { position: absolute; top: -2px; right: -2px; background: #ff3b30; color: white; font-size: 10px; font-weight: bold; padding: 2px 7px; border-radius: 12px; border: 2px solid #1e3c72; }
-    
-    #sfh-v-box { width: 420px; height: 580px; background: rgba(255, 255, 255, 0.98); border-radius: 24px; box-shadow: 0 15px 45px rgba(0,0,0,0.3); display: flex; flex-direction: column; overflow: hidden; position: absolute; bottom: 85px; right: 0; transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: bottom right; }
+
+    #sfh-v-box { width: 420px; height: 580px; background: rgba(255, 255, 255, 0.98); border-radius: 24px; box-shadow: 0 15px 45px rgba(0,0,0,0.3); display: flex; flex-direction: column; overflow: hidden; position: absolute; bottom: 85px; right: 0; transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease; transform-origin: bottom right; }
     #sfh-v-box.sfh-v-hide { transform: scale(0); opacity: 0; pointer-events: none; }
-    
+
     #sfh-v-head { background: linear-gradient(135deg, #1e3c72, #0072ff); color: white; padding: 20px; display: flex; align-items: center; gap: 12px; position: relative; }
     .sfh-v-pfp { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; }
     .sfh-v-status { font-size: 11px; color: #00ffae; font-weight: bold; letter-spacing: 0.5px; }
     #sfh-v-close { position: absolute; right: 20px; top: 25px; cursor: pointer; font-size: 18px; opacity: 0.8; }
-    
+
     #sfh-v-body { flex: 1; padding: 20px; overflow-y: auto; background: #f8fafb; display: flex; flex-direction: column; gap: 15px; }
     .sfh-v-row { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 14.5px; line-height: 1.55; color: #2d3436; }
     .sfh-v-sys { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     .sfh-v-usr { background: #0072ff; color: white; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 3px 10px rgba(0,114,255,0.2); }
-    
+
     .sfh-v-dots { background: transparent; box-shadow: none; padding: 5px 10px; display: flex; gap: 5px; align-items: center; }
     .sfh-v-dots span { width: 9px; height: 9px; background: #0072ff; border-radius: 50%; display: inline-block; animation: sfhBlink 1.4s infinite both; }
     .sfh-v-dots span:nth-child(2) { animation-delay: .2s; }
     .sfh-v-dots span:nth-child(3) { animation-delay: .4s; }
     @keyframes sfhBlink { 0%, 100% { opacity: .3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); } }
-    
+
     #sfh-v-foot { padding: 15px; background: white; border-top: 1px solid #eee; display: flex; gap: 10px; }
     #sfh-v-input { flex: 1; padding: 12px 18px; border: 1px solid #e0e6ed; border-radius: 25px; outline: none; font-size: 14px; color: #2d3436; }
     #sfh-v-input:focus { border-color: #0072ff; }
@@ -70,14 +74,14 @@
   <div class="container">
     <h1>🚀 Baydep Super AI</h1>
     <p>Bản beta đang hoàn thiện bởi Team IT Baydep.<br>Chúng tôi sẽ chính thức ra mắt vào ngày <b>01/07/2026</b>!</p>
-    
+
     <div class="countdown" id="countdown">
       <div><span id="days">0</span><small>Ngày</small></div>
       <div><span id="hours">0</span><small>Giờ</small></div>
       <div><span id="minutes">0</span><small>Phút</small></div>
       <div><span id="seconds">0</span><small>Giây</small></div>
     </div>
-    
+
     <a href="tel:19000080" class="button">📞 Liên hệ Team IT: 1900 0080</a>
     <div class="contact">Hỗ trợ kỹ thuật: <span>1900 0080</span></div>
 
@@ -87,7 +91,7 @@
   </div>
 
   <div id="sfh-v-panel">
-    <div id="sfh-v-trigger" onclick="toggleSfhV()">
+    <div id="sfh-v-trigger">
       <svg viewBox="0 0 24 24" width="30" height="30" fill="white"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
       <span id="sfh-v-badge">BETA</span>
     </div>
@@ -95,101 +99,165 @@
       <div id="sfh-v-head">
         <div class="sfh-v-pfp">🤖</div>
         <div><strong>Baydep AI 2026</strong><div class="sfh-v-status">SIÊU AI BAYDEP 2026</div></div>
-        <span id="sfh-v-close" onclick="toggleSfhV()">✕</span>
+        <span id="sfh-v-close">✕</span>
       </div>
       <div id="sfh-v-body">
         <div class="sfh-v-row sfh-v-sys">Dạ em chào Anh/Chị! Em là trợ lý Siêu AI của Baydep. Em đã sẵn sàng hỗ trợ Anh/Chị trải nghiệm bản Beta 2026. Anh/Chị cần em giải đáp thông tin gì ạ?</div>
       </div>
       <div id="sfh-v-foot">
-        <input type="text" id="sfh-v-input" placeholder="Nhập câu hỏi tại đây..." onkeypress="handleSfhVKey(event)">
-        <button id="sfh-v-btn" onclick="sendSfhVMsg()">Gửi</button>
+        <input type="text" id="sfh-v-input" placeholder="Nhập câu hỏi tại đây...">
+        <button id="sfh-v-btn">Gửi</button>
       </div>
     </div>
   </div>
 
   <script>
-    var isChatLoading = false;
-    
-    function toggleSfhV() { var box = document.getElementById('sfh-v-box'); box.classList.toggle('sfh-v-hide'); if(!box.classList.contains('sfh-v-hide')) document.getElementById('sfh-v-input').focus(); }
-    function handleSfhVKey(e) { if (e.key === 'Enter') sendSfhVMsg(); }
+    (function () {
+      "use strict";
 
-    // Đồng hồ đếm ngược khóa mốc chuẩn xác
-    var launchDate = new Date("Jul 01, 2026 00:00:00").getTime();
-    setInterval(function() {
-      var now = new Date().getTime(); 
-      var distance = launchDate - now;
-      if (distance > 0) {
-        document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
-        document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
-      } else {
-        document.getElementById("countdown").innerHTML = "<div style='width:100%'><span style='color:#00ffae; font-weight:bold;'>ĐÃ CHÍNH THỨC RA MẮT!</span></div>";
+      const WORKER_URL = "https://baydep.buianhcuong2018.workers.dev/";
+
+      /* ===== ĐỒNG HỒ ĐẾM NGƯỢC (tối ưu: cache element, tự dừng khi hết hạn) ===== */
+      (function initCountdown() {
+        const launchDate = new Date("Jul 01, 2026 00:00:00").getTime();
+        const elDays = document.getElementById("days");
+        const elHours = document.getElementById("hours");
+        const elMinutes = document.getElementById("minutes");
+        const elSeconds = document.getElementById("seconds");
+        const elCountdown = document.getElementById("countdown");
+
+        const timer = setInterval(function () {
+          const distance = launchDate - Date.now();
+          if (distance <= 0) {
+            clearInterval(timer); // tự dừng, không chạy ngầm vô tận
+            elCountdown.innerHTML = "<div style='width:100%'><span style='color:#00ffae; font-weight:bold;'>ĐÃ CHÍNH THỨC RA MẮT!</span></div>";
+            return;
+          }
+          elDays.textContent    = Math.floor(distance / 86400000);
+          elHours.textContent   = Math.floor((distance % 86400000) / 3600000);
+          elMinutes.textContent = Math.floor((distance % 3600000) / 60000);
+          elSeconds.textContent = Math.floor((distance % 60000) / 1000);
+        }, 1000);
+      })();
+
+      /* ===== BOX CHAT ===== */
+      // Cache element 1 lần, không truy vấn DOM lặp lại trong vòng lặp stream
+      const box    = document.getElementById('sfh-v-box');
+      const bodyEl = document.getElementById('sfh-v-body');
+      const input  = document.getElementById('sfh-v-input');
+
+      let isLoading = false;
+
+      function toggle() {
+        box.classList.toggle('sfh-v-hide');
+        if (!box.classList.contains('sfh-v-hide')) input.focus();
       }
-    }, 1000);
 
-    async function sendSfhVMsg() {
-      if(isChatLoading) return;
-      var input = document.getElementById('sfh-v-input'); var body = document.getElementById('sfh-v-body'); var text = input.value.trim();
-      if (!text) return;
+      // Gọt # tiêu đề (giữ C#), bỏ ---, xuống dòng, in đậm. Giữ nguyên logic lọc cũ.
+      function renderMarkdown(raw) {
+        return raw
+          .replace(/(^|\s|•|-)\s*#+\s*/g, "$1")
+          .replace(/---/g, "")
+          .replace(/\n/g, "<br>")
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+      }
 
-      isChatLoading = true;
-      var uDiv = document.createElement('div'); uDiv.className = 'sfh-v-row sfh-v-usr'; uDiv.innerText = text; body.appendChild(uDiv);
-      input.value = ''; body.scrollTop = body.scrollHeight;
+      function addRow(cls, text) {
+        const div = document.createElement('div');
+        div.className = 'sfh-v-row ' + cls;
+        if (text !== undefined) div.textContent = text;
+        bodyEl.appendChild(div);
+        bodyEl.scrollTop = bodyEl.scrollHeight;
+        return div;
+      }
 
-      var lDiv = document.createElement('div'); lDiv.className = 'sfh-v-row sfh-v-dots'; lDiv.id = 'sfh-v-loading';
-      lDiv.innerHTML = '<span></span><span></span><span></span>'; body.appendChild(lDiv); body.scrollTop = body.scrollHeight;
+      async function send() {
+        if (isLoading) return;
+        const text = input.value.trim();
+        if (!text) return;
 
-      try {
-        var response = await fetch("https://baydep.buianhcuong2018.workers.dev/", {
-          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: text })
-        });
+        isLoading = true;
+        addRow('sfh-v-usr', text);
+        input.value = '';
 
-        if(document.getElementById('sfh-v-loading')) document.getElementById('sfh-v-loading').remove();
-        var sDiv = document.createElement('div'); sDiv.className = 'sfh-v-row sfh-v-sys'; sDiv.innerHTML = ""; body.appendChild(sDiv);
+        // Dấu "đang gõ"
+        const loading = addRow('sfh-v-dots');
+        loading.innerHTML = '<span></span><span></span><span></span>';
+        bodyEl.scrollTop = bodyEl.scrollHeight;
 
-        var reader = response.body.getReader(); 
-        var decoder = new TextDecoder("utf-8");
-        var fullReply = "";
-        var buffer = ""; 
+        try {
+          const response = await fetch(WORKER_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: text })
+          });
 
-        while (true) {
-          var result = await reader.read(); 
-          if (result.done) break;
-          
-          buffer += decoder.decode(result.value, { stream: true });
-          var lines = buffer.split("\n");
-          
-          buffer = lines.pop(); 
-          
-          for (var i = 0; i < lines.length; i++) {
-            var line = lines[i].trim();
-            if (line.startsWith("data: ")) {
-              var dataStr = line.slice(6).trim();
+          loading.remove();
+          const sDiv = addRow('sfh-v-sys');
+
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder("utf-8");
+          let fullReply = "";
+          let buffer = "";
+
+          // ⚡ Mấu chốt mượt: tách NHẬN dữ liệu khỏi VẼ màn hình.
+          // Nhận chunk chỉ cộng chuỗi (cực nhanh); vẽ gom theo nhịp khung hình (~60fps).
+          let dirty = false, rafPending = false;
+
+          function flush() {
+            rafPending = false;
+            if (!dirty) return;
+            dirty = false;
+            sDiv.innerHTML = renderMarkdown(fullReply);
+            bodyEl.scrollTop = bodyEl.scrollHeight;
+          }
+          function schedule() {
+            dirty = true;
+            if (rafPending) return;
+            rafPending = true;
+            requestAnimationFrame(flush);
+          }
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split("\n");
+            buffer = lines.pop(); // giữ lại phần dòng chưa trọn vẹn
+
+            for (let i = 0; i < lines.length; i++) {
+              const line = lines[i].trim();
+              if (!line.startsWith("data: ")) continue;
+              const dataStr = line.slice(6).trim();
               if (dataStr === "[DONE]") continue;
               try {
-                var parsed = JSON.parse(dataStr);
-                var content = parsed.choices?.[0]?.delta?.content || "";
-                fullReply += content;
-                
-                // ⚡ ĐÃ KHÔI PHỤC VÀ SỬA CHUẨN: Bộ lọc gọt dấu # tiêu đề, giữ nguyên C#, bôi đậm chữ hoàn hảo
-                sDiv.innerHTML = fullReply
-                  .replace(/(^|\s|•|-)\s*#+\s*/g, "$1") 
-                  .replace(/---/g, "")   
-                  .replace(/\n/g, "<br>")
-                  .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-                  
-                body.scrollTop = body.scrollHeight;
-              } catch(e) {}
+                const content = JSON.parse(dataStr).choices?.[0]?.delta?.content || "";
+                if (content) { fullReply += content; schedule(); }
+              } catch (e) { /* bỏ qua dòng chưa parse được */ }
             }
           }
+
+          // Render chốt lần cuối, chắc chắn không sót chữ cuối
+          sDiv.innerHTML = renderMarkdown(fullReply);
+          bodyEl.scrollTop = bodyEl.scrollHeight;
+
+        } catch (err) {
+          // Dọn dấu loading dù lỗi xảy ra ở bất kỳ giai đoạn nào
+          if (loading && loading.parentNode) loading.remove();
+          addRow('sfh-v-sys', 'Đứt mạch kết nối, Anh/Chị vui lòng gửi lại giúp em nhé!');
         }
-      } catch (err) {
-        if(document.getElementById('sfh-v-loading')) document.getElementById('sfh-v-loading').remove();
-        var eDiv = document.createElement('div'); eDiv.className = 'sfh-v-row sfh-v-sys'; eDiv.innerText = 'Đứt mạch kết nối, Anh/Chị vui lòng gửi lại giúp em nhé!'; body.appendChild(eDiv);
+
+        isLoading = false;
+        bodyEl.scrollTop = bodyEl.scrollHeight;
       }
-      isChatLoading = false; body.scrollTop = body.scrollHeight;
-    }
+
+      // Gắn sự kiện 1 lần (thay cho onclick inline)
+      document.getElementById('sfh-v-trigger').addEventListener('click', toggle);
+      document.getElementById('sfh-v-close').addEventListener('click', toggle);
+      document.getElementById('sfh-v-btn').addEventListener('click', send);
+      input.addEventListener('keypress', function (e) { if (e.key === 'Enter') send(); });
+    })();
   </script>
 </body>
 </html>
