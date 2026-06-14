@@ -117,7 +117,7 @@
 
       const WORKER_URL = "https://baydep.buianhcuong2018.workers.dev/";
 
-      /* ===== ĐỒNG HỒ ĐẾM NGƯỢC (tối ưu: cache element, tự dừng khi hết hạn) ===== */
+      /* ===== ĐỒNG HỒ ĐẾM NGƯỢC (cache element, tự dừng khi hết hạn) ===== */
       (function initCountdown() {
         const launchDate = new Date("Jul 01, 2026 00:00:00").getTime();
         const elDays = document.getElementById("days");
@@ -191,6 +191,15 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: text })
           });
+
+          // ⚡ VÁ TƯƠNG THÍCH: nếu Worker trả lỗi không-stream (vd 405, 500 text thuần)
+          // thì xử lý riêng, tránh khung chat hiện trống trơn.
+          if (!response.ok || !response.body) {
+            loading.remove();
+            addRow('sfh-v-sys', 'Hệ thống đang bận, Anh/Chị vui lòng gửi lại giúp em nhé!');
+            isLoading = false;
+            return;
+          }
 
           loading.remove();
           const sDiv = addRow('sfh-v-sys');
