@@ -8,7 +8,7 @@
     * {margin: 0; padding: 0; box-sizing: border-box;}
     html, body { height: 100%; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #fff; }
     
-    /* NỀN TĨNH CAO CẤP: Tối ưu 0% GPU cho máy Dell Precision mát rượi */
+    /* NỀN TĨNH CAO CẤP: Bảo vệ GPU ở mức 0%, máy chạy siêu mát */
     body {
       background: #1e3c72;
       background: linear-gradient(135deg, #1e3c72, #2a5298, #0072ff);
@@ -25,7 +25,7 @@
     h1 { font-size: 3.5rem; margin-bottom: 20px; color: #00ffea; text-shadow: 0 0 15px rgba(0,255,234,0.6); }
     p { font-size: 1.4rem; margin-bottom: 35px; line-height: 1.6; color: #e0e0e0; font-weight: 300; }
     
-    /* BỐ CỤC ĐỒNG HỒ ĐẾM NGƯỢC CHUẨN 01/07/2026 */
+    /* ĐỒNG HỒ ĐẾM NGƯỢC CHUẨN XÁC ĐẾN NGÀY 01/07/2026 */
     .countdown { display: flex; justify-content: center; gap: 15px; margin-bottom: 35px; }
     .countdown div { background: rgba(255, 255, 255, 0.08); padding: 20px 10px; border-radius: 15px; min-width: 90px; border: 1px solid rgba(255, 255, 255, 0.05); }
     .countdown span { display: block; font-size: 2.2rem; font-weight: bold; color: #00ffae; }
@@ -37,7 +37,7 @@
     .contact { margin-top: 25px; font-size: 1.2rem; opacity: 0.9; }
     .contact span { font-weight: bold; color: #00ffae; }
 
-    /* ==================== WIDGET SIÊU AI BAYDEP 2026 ==================== */
+    /* ==================== BOX CHAT CHUẨN VIP THƯƠNG HIỆU BAYDEP AI ==================== */
     #sfh-v-panel { position: fixed; bottom: 25px; right: 25px; z-index: 999999; text-align: left; }
     #sfh-v-trigger { width: 65px; height: 65px; background: linear-gradient(135deg, #00ffea, #0072ff); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 25px rgba(0, 255, 234, 0.4); position: relative; transition: transform 0.2s ease; }
     #sfh-v-trigger:hover { transform: scale(1.05); }
@@ -56,4 +56,129 @@
     .sfh-v-sys { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     .sfh-v-usr { background: #0072ff; color: white; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 3px 10px rgba(0,114,255,0.2); }
     
-    .sfh-v-dots { background: transparent; box-shadow: none; padding:
+    .sfh-v-dots { background: transparent; box-shadow: none; padding: 5px 10px; display: flex; gap: 5px; align-items: center; }
+    .sfh-v-dots span { width: 9px; height: 9px; background: #0072ff; border-radius: 50%; display: inline-block; animation: sfhBlink 1.4s infinite both; }
+    .sfh-v-dots span:nth-child(2) { animation-delay: .2s; }
+    .sfh-v-dots span:nth-child(3) { animation-delay: .4s; }
+    @keyframes sfhBlink { 0%, 100% { opacity: .3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); } }
+    
+    #sfh-v-foot { padding: 15px; background: white; border-top: 1px solid #eee; display: flex; gap: 10px; }
+    #sfh-v-input { flex: 1; padding: 12px 18px; border: 1px solid #e0e6ed; border-radius: 25px; outline: none; font-size: 14px; color: #2d3436; }
+    #sfh-v-input:focus { border-color: #0072ff; }
+    #sfh-v-btn { background: linear-gradient(135deg, #00c6ff, #0072ff); color: white; border: none; padding: 0 20px; border-radius: 25px; font-weight: bold; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🚀 Baydep Super AI</h1>
+    <p>Bản beta đang hoàn thiện bởi Team IT Baydep.<br>Chúng tôi sẽ chính thức ra mắt vào ngày <b>01/07/2026</b>!</p>
+    
+    <div class="countdown" id="countdown">
+      <div><span id="days">0</span><small>Ngày</small></div>
+      <div><span id="hours">0</span><small>Giờ</small></div>
+      <div><span id="minutes">0</span><small>Phút</small></div>
+      <div><span id="seconds">0</span><small>Giây</small></div>
+    </div>
+    
+    <a href="tel:19000080" class="button">📞 Liên hệ Team IT: 19000080</a>
+    <div class="contact">Hỗ trợ kỹ thuật: <span>19000080</span></div>
+
+    <div style="margin-top: 30px; font-style: italic; font-size: 0.85rem; color: #bbb; opacity: 0.75; letter-spacing: 0.3px;">
+      * Cần góp ý gì báo anh Cường trong Group Viber Góp Ý Quản Trị.
+    </div>
+  </div>
+
+  <div id="sfh-v-panel">
+    <div id="sfh-v-trigger" onclick="toggleSfhV()">
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="white"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+      <span id="sfh-v-badge">BETA</span>
+    </div>
+    <div id="sfh-v-box" class="sfh-v-hide">
+      <div id="sfh-v-head">
+        <div class="sfh-v-pfp">🤖</div>
+        <div><strong>Baydep AI 2026</strong><div class="sfh-v-status">SIÊU AI BAYDEP 2026</div></div>
+        <span id="sfh-v-close" onclick="toggleSfhV()">✕</span>
+      </div>
+      <div id="sfh-v-body">
+        <div class="sfh-v-row sfh-v-sys">Dạ em chào Anh/Chị! Em là trợ lý Siêu AI của Baydep.vn. Em đã sẵn sàng hỗ trợ Anh/Chị trải nghiệm bản Beta 2026. Anh/Chị cần em giải đáp thông tin gì ạ?</div>
+      </div>
+      <div id="sfh-v-foot">
+        <input type="text" id="sfh-v-input" placeholder="Nhập câu hỏi tại đây..." onkeypress="handleSfhVKey(event)">
+        <button id="sfh-v-btn" onclick="sendSfhVMsg()">Gửi</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Đã chuyển toàn bộ tên biến kiểm soát sang chuẩn ký tự Latin chống lỗi font trình duyệt
+    var isChatLoading = false;
+    
+    function toggleSfhV() { var box = document.getElementById('sfh-v-box'); box.classList.toggle('sfh-v-hide'); if(!box.classList.contains('sfh-v-hide')) document.getElementById('sfh-v-input').focus(); }
+    function handleSfhVKey(e) { if (e.key === 'Enter') sendSfhVMsg(); }
+
+    // LOGIC ĐẾM NGƯỢC KHÓA MỐC 01/07/2026 CHUẨN XÁC TIẾN ĐỘ
+    var launchDate = new Date("Jul 01, 2026 00:00:00").getTime();
+    setInterval(function() {
+      var now = new Date().getTime(); var distance = launchDate - now;
+      if (distance > 0) {
+        document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+        document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+      } else {
+        document.getElementById("countdown").innerHTML = "<div style='width:100%'><span style='color:#00ffae; font-weight:bold;'>ĐÃ CHÍNH THỨC RA MẮT!</span></div>";
+      }
+    }, 1000);
+
+    async function sendSfhVMsg() {
+      if(isChatLoading) return;
+      var input = document.getElementById('sfh-v-input'); var body = document.getElementById('sfh-v-body'); var text = input.value.trim();
+      if (!text) return;
+
+      isChatLoading = true;
+      var uDiv = document.createElement('div'); uDiv.className = 'sfh-v-row sfh-v-usr'; uDiv.innerText = text; body.appendChild(uDiv);
+      input.value = ''; body.scrollTop = body.scrollHeight;
+
+      var lDiv = document.createElement('div'); lDiv.className = 'sfh-v-row sfh-v-dots'; lDiv.id = 'sfh-v-loading';
+      lDiv.innerHTML = '<span></span><span></span><span></span>'; body.appendChild(lDiv); body.scrollTop = body.scrollHeight;
+
+      try {
+        var response = await fetch("https://baydep.buianhcuong2018.workers.dev/", {
+          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: text })
+        });
+
+        if(document.getElementById('sfh-v-loading')) document.getElementById('sfh-v-loading').remove();
+        var sDiv = document.createElement('div'); sDiv.className = 'sfh-v-row sfh-v-sys'; sDiv.innerHTML = ""; body.appendChild(sDiv);
+
+        var reader = response.body.getReader(); var decoder = new TextDecoder("utf-8");
+        var fullReply = "";
+
+        while (true) {
+          var result = await reader.read(); if (result.done) break;
+          var chunk = decoder.decode(result.value, { stream: true });
+          var lines = chunk.split("\n");
+          for (var i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            if (line.startsWith("data: ")) {
+              var dataStr = line.slice(6).trim();
+              if (dataStr === "[DONE]") continue;
+              try {
+                var parsed = JSON.parse(dataStr);
+                var content = parsed.choices?.[0]?.delta?.content || "";
+                fullReply += content;
+                sDiv.innerHTML = fullReply.replace(/\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+                body.scrollTop = body.scrollHeight;
+              } catch(e) {}
+            }
+          }
+        }
+      } catch (err) {
+        if(document.getElementById('sfh-v-loading')) document.getElementById('sfh-v-loading').remove();
+        var eDiv = document.createElement('div'); eDiv.className = 'sfh-v-row sfh-v-sys'; eDiv.innerText = 'Đứt mạch kết nối, Anh/Chị vui lòng gửi lại giúp em nhé!'; body.appendChild(eDiv);
+      }
+      isChatLoading = false; body.scrollTop = body.scrollHeight;
+    }
+  </script>
+</body>
+</html>
