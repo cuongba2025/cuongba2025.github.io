@@ -109,6 +109,203 @@
       font-weight: bold;
       color: #00ffae;
     }
+
+    /* ==================== CSS WIDGET BONG BÓNG CHAT HIỆN ĐẠI ==================== */
+    #sfh-chat-widget {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 999999;
+      text-align: left;
+    }
+    #sfh-chat-bubble {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #00ffea, #0072ff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 255, 234, 0.4);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+    #sfh-chat-bubble:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 6px 25px rgba(0, 255, 234, 0.6);
+    }
+    #sfh-chat-badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      background: #ff3b30;
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 10px;
+      border: 2px solid #1e3c72;
+    }
+    
+    #sfh-chat-box {
+      width: 380px;
+      height: 520px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: absolute;
+      bottom: 80px;
+      right: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: bottom right;
+    }
+    #sfh-chat-box.sfh-hidden {
+      transform: scale(0) translateY(40px);
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    #sfh-chat-header {
+      background: linear-gradient(135deg, #1e3c72, #0072ff);
+      color: white;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+    .sfh-avatar {
+      width: 38px;
+      height: 38px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+    .sfh-header-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .sfh-header-info strong {
+      font-size: 15px;
+      letter-spacing: 0.3px;
+    }
+    .sfh-status {
+      font-size: 11px;
+      color: #00ffae;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .sfh-status::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: #00ffae;
+      border-radius: 50%;
+    }
+    #sfh-close-btn {
+      position: absolute;
+      right: 18px;
+      top: 24px;
+      cursor: pointer;
+      font-size: 16px;
+      opacity: 0.7;
+      transition: 0.2s;
+    }
+    #sfh-close-btn:hover { opacity: 1; transform: scale(1.1); }
+    
+    #sfh-chat-body {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #f4f7f6;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .sfh-msg {
+      max-width: 85%;
+      padding: 11px 15px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.5;
+      word-wrap: break-word;
+      color: #333;
+    }
+    .sfh-ai {
+      background: white;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    }
+    .sfh-user {
+      background: #0072ff;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 114, 255, 0.2);
+    }
+    .sfh-loading {
+      font-style: italic;
+      color: #666;
+      background: rgba(255, 255, 255, 0.7);
+    }
+    
+    #sfh-chat-footer {
+      padding: 12px;
+      background: white;
+      border-top: 1px solid #eee;
+      display: flex;
+      gap: 8px;
+    }
+    #sfh-chat-input {
+      flex: 1;
+      padding: 10px 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 24px;
+      outline: none;
+      font-size: 14px;
+      transition: all 0.2s;
+      color: #333;
+    }
+    #sfh-chat-input:focus {
+      border-color: #0072ff;
+      box-shadow: 0 0 5px rgba(0, 114, 255, 0.2);
+    }
+    #sfh-send-btn {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      border: none;
+      padding: 0 18px;
+      border-radius: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    #sfh-send-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(0, 114, 255, 0.3);
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 480px) {
+      #sfh-chat-box {
+        width: calc(100vw - 40px);
+        height: 450px;
+        bottom: 75px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -117,42 +314,5 @@
     <p>Website đang được xây dựng.<br>
        Chúng tôi sẽ chính thức ra mắt vào ngày <b>23/09</b>!</p>
 
-    <!-- Countdown -->
     <div class="countdown" id="countdown">
-      <div><span id="days">0</span><small>Ngày</small></div>
-      <div><span id="hours">0</span><small>Giờ</small></div>
-      <div><span id="minutes">0</span><small>Phút</small></div>
-      <div><span id="seconds">0</span><small>Giây</small></div>
-    </div>
-
-    <a href="tel:19000080" class="button">📞 Gọi ngay 19000080</a>
-    <div class="contact">Hoặc liên hệ qua số: <span>19000080</span></div>
-  </div>
-
-  <script>
-    // Thiết lập ngày đích
-    const launchDate = new Date("Sep 23, 2025 00:00:00").getTime();
-
-    const timer = setInterval(function() {
-      const now = new Date().getTime();
-      const distance = launchDate - now;
-
-      if (distance < 0) {
-        clearInterval(timer);
-        document.getElementById("countdown").innerHTML = "<p style='font-size:1.5rem; color:#00ffae;'>🎉 Chúng tôi đã sẵn sàng!</p>";
-        return;
-      }
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      document.getElementById("days").innerText = days;
-      document.getElementById("hours").innerText = hours;
-      document.getElementById("minutes").innerText = minutes;
-      document.getElementById("seconds").innerText = seconds;
-    }, 1000);
-  </script>
-</body>
-</html>
+      <div><span id="days">0
