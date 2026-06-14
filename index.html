@@ -8,7 +8,7 @@
     * {margin: 0; padding: 0; box-sizing: border-box;}
     html, body { height: 100%; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #fff; }
     
-    /* NỀN TĨNH CAO CẤP: Bảo vệ GPU ở mức 0%, máy chạy siêu mát */
+    /* NỀN TĨNH CAO CẤP: Tối ưu 0% GPU cho máy Dell Precision mát rượi */
     body {
       background: #1e3c72;
       background: linear-gradient(135deg, #1e3c72, #2a5298, #0072ff);
@@ -25,7 +25,7 @@
     h1 { font-size: 3.5rem; margin-bottom: 20px; color: #00ffea; text-shadow: 0 0 15px rgba(0,255,234,0.6); }
     p { font-size: 1.4rem; margin-bottom: 35px; line-height: 1.6; color: #e0e0e0; font-weight: 300; }
     
-    /* ĐỒNG HỒ ĐẾM NGƯỢC CHUẨN XÁC ĐẾN NGÀY 01/07/2026 */
+    /* BỐ CỤC ĐỒNG HỒ ĐẾM NGƯỢC CHUẨN 01/07/2026 */
     .countdown { display: flex; justify-content: center; gap: 15px; margin-bottom: 35px; }
     .countdown div { background: rgba(255, 255, 255, 0.08); padding: 20px 10px; border-radius: 15px; min-width: 90px; border: 1px solid rgba(255, 255, 255, 0.05); }
     .countdown span { display: block; font-size: 2.2rem; font-weight: bold; color: #00ffae; }
@@ -101,7 +101,7 @@
         <span id="sfh-v-close" onclick="toggleSfhV()">✕</span>
       </div>
       <div id="sfh-v-body">
-        <div class="sfh-v-row sfh-v-sys">Dạ em chào Anh/Chị! Em là trợ lý Siêu AI của Baydep.vn. Em đã sẵn sàng hỗ trợ Anh/Chị trải nghiệm bản Beta 2026. Anh/Chị cần em giải đáp thông tin gì ạ?</div>
+        <div class="sfh-v-row sfh-v-sys">Dạ em chào Anh/Chị! Em là trợ lý Siêu AI của Baydep. Em đã sẵn sàng hỗ trợ Anh/Chị trải nghiệm bản Beta 2026. Anh/Chị cần em giải đáp thông tin gì ạ?</div>
       </div>
       <div id="sfh-v-foot">
         <input type="text" id="sfh-v-input" placeholder="Nhập câu hỏi tại đây..." onkeypress="handleSfhVKey(event)">
@@ -111,13 +111,12 @@
   </div>
 
   <script>
-    // Đã chuyển toàn bộ tên biến kiểm soát sang chuẩn ký tự Latin chống lỗi font trình duyệt
     var isChatLoading = false;
     
     function toggleSfhV() { var box = document.getElementById('sfh-v-box'); box.classList.toggle('sfh-v-hide'); if(!box.classList.contains('sfh-v-hide')) document.getElementById('sfh-v-input').focus(); }
     function handleSfhVKey(e) { if (e.key === 'Enter') sendSfhVMsg(); }
 
-    // LOGIC ĐẾM NGƯỢC KHÓA MỐC 01/07/2026 CHUẨN XÁC TIẾN ĐỘ
+    // ĐẾM NGƯỢC KHÓA MỐC 01/07/2026 CHUẨN XÁC
     var launchDate = new Date("Jul 01, 2026 00:00:00").getTime();
     setInterval(function() {
       var now = new Date().getTime(); var distance = launchDate - now;
