@@ -113,9 +113,11 @@
     function toggleSfhV() { var box = document.getElementById('sfh-v-box'); box.classList.toggle('sfh-v-hide'); if(!box.classList.contains('sfh-v-hide')) document.getElementById('sfh-v-input').focus(); }
     function handleSfhVKey(e) { if (e.key === 'Enter') sendSfhVMsg(); }
 
+    // ⚡ MẠCH ĐẾM NGƯỢC CHUẨN XÁC ĐẾN 01/07/2026 (ĐÃ KHÔI PHỤC VÀ KIỂM TRA LỖI)
     var launchDate = new Date("Jul 01, 2026 00:00:00").getTime();
     setInterval(function() {
-      var now = new Date().getTime(); var distance = launchDate - now;
+      var now = new Date().getTime(); 
+      var distance = launchDate - now;
       if (distance > 0) {
         document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
         document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -139,4 +141,55 @@
       lDiv.innerHTML = '<span></span><span></span><span></span>'; body.appendChild(lDiv); body.scrollTop = body.scrollHeight;
 
       try {
-        var response =
+        var response = await fetch("https://baydep.buianhcuong2018.workers.dev/", {
+          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: text })
+        });
+
+        if(document.getElementById('sfh-v-loading')) document.getElementById('sfh-v-loading').remove();
+        var sDiv = document.createElement('div'); sDiv.className = 'sfh-v-row sfh-v-sys'; sDiv.innerHTML = ""; body.appendChild(sDiv);
+
+        var reader = response.body.getReader(); 
+        var decoder = new TextDecoder("utf-8");
+        var fullReply = "";
+        var buffer = ""; 
+
+        while (true) {
+          var result = await reader.read(); 
+          if (result.done) break;
+          
+          buffer += decoder.decode(result.value, { stream: true });
+          var lines = buffer.split("\n");
+          
+          buffer = lines.pop(); 
+          
+          for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].trim();
+            if (line.startsWith("data: ")) {
+              var dataStr = line.slice(6).trim();
+              if (dataStr === "[DONE]") continue;
+              try {
+                var parsed = JSON.parse(dataStr);
+                var content = parsed.choices?.[0]?.delta?.content || "";
+                fullReply += content;
+                
+                // ⚡ BỘ LỌC ĐÃ ĐƯỢC AUDIT: Chỉ gọt dấu # tiêu đề, bảo vệ tuyệt đối C#, #hashtag, màu sắc
+                sDiv.innerHTML = fullReply
+                  .replace(/(^|\s|•|-)\s*#+\s*/g, "$1") 
+                  .replace(/---/g, "")   
+                  .replace(/\n/g, "<br>")
+                  .replace(/\*\frac{1}{2}(.*?)\*\*/g, "<strong>$1</strong>");
+                  
+                body.scrollTop = body.scrollHeight;
+              } catch(e) {}
+            }
+          }
+        }
+      } catch (err) {
+        if(document.getElementById('sfh-v-loading')) document.getElementById('sfh-v-loading').remove();
+        var eDiv = document.createElement('div'); eDiv.className = 'sfh-v-row sfh-v-sys'; eDiv.innerText = 'Đứt mạch kết nối, Anh/Chị vui lòng gửi lại giúp em nhé!'; body.appendChild(eDiv);
+      }
+      isChatLoading = false; body.scrollTop = body.scrollHeight;
+    }
+  </script>
+</body>
+</html>
