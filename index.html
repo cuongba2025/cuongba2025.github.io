@@ -113,7 +113,7 @@
     function toggleSfhV() { var box = document.getElementById('sfh-v-box'); box.classList.toggle('sfh-v-hide'); if(!box.classList.contains('sfh-v-hide')) document.getElementById('sfh-v-input').focus(); }
     function handleSfhVKey(e) { if (e.key === 'Enter') sendSfhVMsg(); }
 
-    // ⚡ MẠCH ĐẾM NGƯỢC CHUẨN XÁC ĐẾN 01/07/2026 (ĐÃ KHÔI PHỤC VÀ KIỂM TRA LỖI)
+    // Đồng hồ đếm ngược khóa mốc chuẩn xác
     var launchDate = new Date("Jul 01, 2026 00:00:00").getTime();
     setInterval(function() {
       var now = new Date().getTime(); 
@@ -172,12 +172,12 @@
                 var content = parsed.choices?.[0]?.delta?.content || "";
                 fullReply += content;
                 
-                // ⚡ BỘ LỌC ĐÃ ĐƯỢC AUDIT: Chỉ gọt dấu # tiêu đề, bảo vệ tuyệt đối C#, #hashtag, màu sắc
+                // ⚡ ĐÃ KHÔI PHỤC VÀ SỬA CHUẨN: Bộ lọc gọt dấu # tiêu đề, giữ nguyên C#, bôi đậm chữ hoàn hảo
                 sDiv.innerHTML = fullReply
                   .replace(/(^|\s|•|-)\s*#+\s*/g, "$1") 
                   .replace(/---/g, "")   
                   .replace(/\n/g, "<br>")
-                  .replace(/\*\frac{1}{2}(.*?)\*\*/g, "<strong>$1</strong>");
+                  .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
                   
                 body.scrollTop = body.scrollHeight;
               } catch(e) {}
