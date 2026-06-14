@@ -149,17 +149,15 @@
         var reader = response.body.getReader(); 
         var decoder = new TextDecoder("utf-8");
         var fullReply = "";
-        var buffer = ""; // ⚡ CỨU CÁNH CHÍNH LÀ ĐÂY: Biến bộ đệm ghép nối các gói tin vỡ
+        var buffer = ""; 
 
         while (true) {
           var result = await reader.read(); 
           if (result.done) break;
           
-          // Cộng dồn dữ liệu vỡ vào bộ đệm thay vì xử lý ngay lập tức
           buffer += decoder.decode(result.value, { stream: true });
           var lines = buffer.split("\n");
           
-          // Giữ lại phần đuôi chưa có dấu \n để ghép nối vào nhịp đọc tiếp theo
           buffer = lines.pop(); 
           
           for (var i = 0; i < lines.length; i++) {
@@ -171,11 +169,16 @@
                 var parsed = JSON.parse(dataStr);
                 var content = parsed.choices?.[0]?.delta?.content || "";
                 fullReply += content;
-                sDiv.innerHTML = fullReply.replace(/\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+                
+                // ⚡ BỘ LỌC REGEX TẨY RỬA DẤU MARKDOWN: Quét sạch ### và ---
+                sDiv.innerHTML = fullReply
+                  .replace(/#{1,3}\s/g, "") // Diệt gọn dấu thăng (###, ##, #)
+                  .replace(/---/g, "")      // Xóa luôn các đường kẻ ngang phân cách
+                  .replace(/\n/g, "<br>")
+                  .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+                  
                 body.scrollTop = body.scrollHeight;
-              } catch(e) {
-                // Nếu vẫn có lỗi parse ngầm thì bỏ qua, không làm treo giao diện
-              }
+              } catch(e) {}
             }
           }
         }
