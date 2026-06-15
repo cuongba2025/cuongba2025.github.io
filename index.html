@@ -116,7 +116,7 @@
 
       const WORKER_URL = "https://baydep.buianhcuong2018.workers.dev/";
 
-      /* ===== ĐỒNG HỒ ĐẾM NGƯỢC (cache element, tự dừng khi hết hạn) ===== */
+      /* ===== ĐỒNG HỒ ĐẾM NGƯỢC ===== */
       (function initCountdown() {
         const launchDate = new Date("Jul 01, 2026 00:00:00").getTime();
         const elDays = document.getElementById("days");
@@ -128,7 +128,7 @@
         const timer = setInterval(function () {
           const distance = launchDate - Date.now();
           if (distance <= 0) {
-            clearInterval(timer); // tự dừng, không chạy ngầm vô tận
+            clearInterval(timer);
             elCountdown.innerHTML = "<div style='width:100%'><span style='color:#00ffae; font-weight:bold;'>ĐÃ CHÍNH THỨC RA MẮT!</span></div>";
             return;
           }
@@ -145,10 +145,21 @@
       const input  = document.getElementById('sfh-v-input');
 
       let isLoading = false;
-      
-      // 🧠 BỘ NÃO TRÍ NHỚ CỦA AI
+
+      // 🧠 TRÍ NHỚ HỘI THOẠI (cửa sổ trượt)
       let chatHistory = [];
-      const MAX_HISTORY = 6; // Giới hạn cửa sổ trượt: Nhớ 6 dòng gần nhất (3 hỏi - 3 đáp)
+      const MAX_HISTORY = 6; // 6 dòng gần nhất (~3 lượt hỏi-đáp)
+
+      // Cắt cửa sổ trượt + đảm bảo mảng luôn bắt đầu bằng 'user'
+      // (tránh trường hợp mảng mở đầu bằng 'assistant' làm model khó chịu)
+      function trimHistory() {
+        if (chatHistory.length > MAX_HISTORY) {
+          chatHistory = chatHistory.slice(-MAX_HISTORY);
+        }
+        while (chatHistory.length > 0 && chatHistory[0].role !== "user") {
+          chatHistory.shift();
+        }
+      }
 
       function toggle() {
         box.classList.toggle('sfh-v-hide');
@@ -181,11 +192,9 @@
         addRow('sfh-v-usr', text);
         input.value = '';
 
-        // 1. NHÉT CÂU HỎI VÀO TRÍ NHỚ VÀ CẮT CỬA SỔ TRƯỢT
+        // 1. Lưu câu hỏi vào trí nhớ + cắt cửa sổ trượt
         chatHistory.push({ role: "user", content: text });
-        if (chatHistory.length > MAX_HISTORY) {
-            chatHistory = chatHistory.slice(-MAX_HISTORY);
-        }
+        trimHistory();
 
         const loading = addRow('sfh-v-dots');
         loading.innerHTML = '<span></span><span></span><span></span>';
@@ -195,14 +204,14 @@
           const response = await fetch(WORKER_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ messages: chatHistory }) // 2. GỬI NGUYÊN MẢNG LỊCH SỬ ĐI
+            body: JSON.stringify({ messages: chatHistory }) // 2. Gửi nguyên mảng lịch sử
           });
 
           if (!response.ok || !response.body) {
             loading.remove();
             addRow('sfh-v-sys', 'Hệ thống đang bận, Anh/Chị vui lòng gửi lại giúp em nhé!');
+            chatHistory.pop(); // rút câu hỏi vừa thêm để không lệch logic lượt sau
             isLoading = false;
-            chatHistory.pop(); // Rút câu hỏi ra khỏi trí nhớ để khỏi bị lỗi logic nối tiếp
             return;
           }
 
@@ -214,6 +223,7 @@
           let fullReply = "";
           let buffer = "";
 
+          // Tách NHẬN dữ liệu khỏi VẼ màn hình (gom render theo nhịp khung hình)
           let dirty = false, rafPending = false;
 
           function flush() {
@@ -236,7 +246,7 @@
 
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split("\n");
-            buffer = lines.pop(); 
+            buffer = lines.pop();
 
             for (let i = 0; i < lines.length; i++) {
               const line = lines[i].trim();
@@ -246,22 +256,26 @@
               try {
                 const content = JSON.parse(dataStr).choices?.[0]?.delta?.content || "";
                 if (content) { fullReply += content; schedule(); }
-              } catch (e) { }
+              } catch (e) { /* bỏ qua dòng chưa parse được */ }
             }
           }
 
+          // Render chốt lần cuối
           sDiv.innerHTML = renderMarkdown(fullReply);
           bodyEl.scrollTop = bodyEl.scrollHeight;
 
-          // 3. GHI NHỚ LỜI BOT ĐÃ NÓI VÀO LỊCH SỬ
+          // 3. Ghi nhớ lời bot. Nếu bot không trả gì thì rút lại câu hỏi để khỏi lệch logic
           if (fullReply.trim() !== "") {
-              chatHistory.push({ role: "assistant", content: fullReply });
+            chatHistory.push({ role: "assistant", content: fullReply });
+            trimHistory();
+          } else {
+            chatHistory.pop();
           }
 
         } catch (err) {
           if (loading && loading.parentNode) loading.remove();
           addRow('sfh-v-sys', 'Đứt mạch kết nối, Anh/Chị vui lòng gửi lại giúp em nhé!');
-          chatHistory.pop(); // Rớt mạng cũng rút trí nhớ ra
+          chatHistory.pop(); // rớt mạng cũng rút câu hỏi vừa thêm
         }
 
         isLoading = false;
