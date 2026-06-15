@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Baydep Super AI - Beta Version</title>
 
-  <!-- ⚡ Bắt tay sớm với Worker để chữ đầu tiên về nhanh hơn -->
   <link rel="preconnect" href="https://baydep.buianhcuong2018.workers.dev" crossorigin>
   <link rel="dns-prefetch" href="https://baydep.buianhcuong2018.workers.dev">
 
@@ -141,19 +140,21 @@
       })();
 
       /* ===== BOX CHAT ===== */
-      // Cache element 1 lần, không truy vấn DOM lặp lại trong vòng lặp stream
       const box    = document.getElementById('sfh-v-box');
       const bodyEl = document.getElementById('sfh-v-body');
       const input  = document.getElementById('sfh-v-input');
 
       let isLoading = false;
+      
+      // 🧠 BỘ NÃO TRÍ NHỚ CỦA AI
+      let chatHistory = [];
+      const MAX_HISTORY = 6; // Giới hạn cửa sổ trượt: Nhớ 6 dòng gần nhất (3 hỏi - 3 đáp)
 
       function toggle() {
         box.classList.toggle('sfh-v-hide');
         if (!box.classList.contains('sfh-v-hide')) input.focus();
       }
 
-      // Gọt # tiêu đề (giữ C#), bỏ ---, xuống dòng, in đậm. Giữ nguyên logic lọc cũ.
       function renderMarkdown(raw) {
         return raw
           .replace(/(^|\s|•|-)\s*#+\s*/g, "$1")
@@ -180,7 +181,12 @@
         addRow('sfh-v-usr', text);
         input.value = '';
 
-        // Dấu "đang gõ"
+        // 1. NHÉT CÂU HỎI VÀO TRÍ NHỚ VÀ CẮT CỬA SỔ TRƯỢT
+        chatHistory.push({ role: "user", content: text });
+        if (chatHistory.length > MAX_HISTORY) {
+            chatHistory = chatHistory.slice(-MAX_HISTORY);
+        }
+
         const loading = addRow('sfh-v-dots');
         loading.innerHTML = '<span></span><span></span><span></span>';
         bodyEl.scrollTop = bodyEl.scrollHeight;
@@ -189,15 +195,14 @@
           const response = await fetch(WORKER_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: text })
+            body: JSON.stringify({ messages: chatHistory }) // 2. GỬI NGUYÊN MẢNG LỊCH SỬ ĐI
           });
 
-          // ⚡ VÁ TƯƠNG THÍCH: nếu Worker trả lỗi không-stream (vd 405, 500 text thuần)
-          // thì xử lý riêng, tránh khung chat hiện trống trơn.
           if (!response.ok || !response.body) {
             loading.remove();
             addRow('sfh-v-sys', 'Hệ thống đang bận, Anh/Chị vui lòng gửi lại giúp em nhé!');
             isLoading = false;
+            chatHistory.pop(); // Rút câu hỏi ra khỏi trí nhớ để khỏi bị lỗi logic nối tiếp
             return;
           }
 
@@ -209,8 +214,6 @@
           let fullReply = "";
           let buffer = "";
 
-          // ⚡ Mấu chốt mượt: tách NHẬN dữ liệu khỏi VẼ màn hình.
-          // Nhận chunk chỉ cộng chuỗi (cực nhanh); vẽ gom theo nhịp khung hình (~60fps).
           let dirty = false, rafPending = false;
 
           function flush() {
@@ -233,7 +236,7 @@
 
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split("\n");
-            buffer = lines.pop(); // giữ lại phần dòng chưa trọn vẹn
+            buffer = lines.pop(); 
 
             for (let i = 0; i < lines.length; i++) {
               const line = lines[i].trim();
@@ -243,25 +246,28 @@
               try {
                 const content = JSON.parse(dataStr).choices?.[0]?.delta?.content || "";
                 if (content) { fullReply += content; schedule(); }
-              } catch (e) { /* bỏ qua dòng chưa parse được */ }
+              } catch (e) { }
             }
           }
 
-          // Render chốt lần cuối, chắc chắn không sót chữ cuối
           sDiv.innerHTML = renderMarkdown(fullReply);
           bodyEl.scrollTop = bodyEl.scrollHeight;
 
+          // 3. GHI NHỚ LỜI BOT ĐÃ NÓI VÀO LỊCH SỬ
+          if (fullReply.trim() !== "") {
+              chatHistory.push({ role: "assistant", content: fullReply });
+          }
+
         } catch (err) {
-          // Dọn dấu loading dù lỗi xảy ra ở bất kỳ giai đoạn nào
           if (loading && loading.parentNode) loading.remove();
           addRow('sfh-v-sys', 'Đứt mạch kết nối, Anh/Chị vui lòng gửi lại giúp em nhé!');
+          chatHistory.pop(); // Rớt mạng cũng rút trí nhớ ra
         }
 
         isLoading = false;
         bodyEl.scrollTop = bodyEl.scrollHeight;
       }
 
-      // Gắn sự kiện 1 lần (thay cho onclick inline)
       document.getElementById('sfh-v-trigger').addEventListener('click', toggle);
       document.getElementById('sfh-v-close').addEventListener('click', toggle);
       document.getElementById('sfh-v-btn').addEventListener('click', send);
