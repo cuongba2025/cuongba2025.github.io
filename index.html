@@ -159,6 +159,27 @@
 
       const WORKER_URL = "https://baydep.buianhcuong2018.workers.dev/";
 
+      /* ===== QUẢN LÝ SESSION ID =====
+         1 phiên = 1 lần mở tab chat, tự hết hạn sau 30 phút không hoạt động.
+         Dùng sessionStorage để mọi lượt trong cùng phiên gom chung 1 dòng trên D1. */
+      function getSessionId() {
+        const KEY = "baydep_session";
+        const TIMEOUT = 30 * 60 * 1000; // 30 phút
+        const now = Date.now();
+
+        let saved = null;
+        try { saved = JSON.parse(sessionStorage.getItem(KEY)); } catch (e) {}
+
+        if (!saved || !saved.id || (now - saved.last) > TIMEOUT) {
+          saved = { id: crypto.randomUUID(), last: now };
+        } else {
+          saved.last = now;
+        }
+
+        try { sessionStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+        return saved.id;
+      }
+
       /* ===== ĐỒNG HỒ ĐẾM NGƯỢC ===== */
       (function initCountdown() {
         const launchDate = new Date("Jul 01, 2026 00:00:00").getTime();
@@ -246,7 +267,10 @@
           const response = await fetch(WORKER_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ messages: chatHistory }) // 2. Gửi nguyên mảng lịch sử
+            body: JSON.stringify({
+              messages: chatHistory,        // 2. Gửi nguyên mảng lịch sử
+              sessionId: getSessionId()     // 3. Gửi kèm "số bàn" để gom đúng phiên trên D1
+            })
           });
 
           if (!response.ok || !response.body) {
@@ -306,7 +330,7 @@
           sDiv.innerHTML = renderMarkdown(fullReply);
           bodyEl.scrollTop = bodyEl.scrollHeight;
 
-          // 3. Ghi nhớ lời bot. Nếu bot không trả gì thì rút lại câu hỏi để khỏi lệch logic
+          // 4. Ghi nhớ lời bot. Nếu bot không trả gì thì rút lại câu hỏi để khỏi lệch logic
           if (fullReply.trim() !== "") {
             chatHistory.push({ role: "assistant", content: fullReply });
             trimHistory();
