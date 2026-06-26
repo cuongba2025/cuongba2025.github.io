@@ -51,9 +51,13 @@
     #sfh-v-head { background: linear-gradient(135deg, #1e3c72, #0072ff); color: white; padding: 20px; display: flex; align-items: center; gap: 12px; position: relative; flex-shrink: 0; }
     .sfh-v-pfp { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
     .sfh-v-status { font-size: 11px; color: #00ffae; font-weight: bold; letter-spacing: 0.5px; }
-    #sfh-v-close { position: absolute; right: 20px; top: 25px; cursor: pointer; font-size: 18px; opacity: 0.8; padding: 5px; }
+    
+    /* Tối ưu vị trí nút chức năng trên Header */
+    #sfh-v-close { position: absolute; right: 15px; top: 23px; cursor: pointer; font-size: 18px; opacity: 0.8; padding: 5px; }
+    #sfh-v-clear { position: absolute; right: 45px; top: 22px; cursor: pointer; font-size: 12px; opacity: 0.8; padding: 4px 8px; background: rgba(255,255,255,0.15); border-radius: 6px; font-weight: normal; transition: background 0.2s; }
+    #sfh-v-clear:hover { background: rgba(255,255,255,0.3); opacity: 1; }
 
-    #sfh-v-body { flex: 1; padding: 20px; overflow-y: auto; -webkit-overflow-scrolling: touch; background: #f8fafb; display: flex; flex-direction: column; gap: 15px; }
+    #sfh-v-body { flex: 1; padding: 20px; overflow-y: auto; -webkit-overflow-scrolling: touch; background: #f8fafb; display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth; }
     .sfh-v-row { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 14.5px; line-height: 1.55; color: #2d3436; word-wrap: break-word; overflow-wrap: break-word; }
     .sfh-v-sys { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     .sfh-v-usr { background: #0072ff; color: white; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 3px 10px rgba(0,114,255,0.2); }
@@ -106,10 +110,11 @@
       <div id="sfh-v-head">
         <div class="sfh-v-pfp">🤖</div>
         <div><strong>Baydep AI 2026</strong><div class="sfh-v-status">SIÊU AI BAYDEP 2026</div></div>
+        <span id="sfh-v-clear" title="Xóa bộ nhớ đệm ca làm việc cũ">🗑️ Xóa lịch sử</span>
         <span id="sfh-v-close">✕</span>
       </div>
       <div id="sfh-v-body">
-        <div class="sfh-v-row sfh-v-sys">Dạ em chào Anh/Chị! Em là trợ lý Siêu AI của Baydep. Em đã sẵn sàng hỗ trợ Anh/Chị. Anh/Chị cần em giải đáp thông tin gì ạ?</div>
+        <div class="sfh-v-row sfh-v-sys" id="sfh-welcome-msg">Dạ em chào Anh/Chị! Em là trợ lý Siêu AI của Baydep. Em đã sẵn sàng hỗ trợ Anh/Chị. Anh/Chị cần em giải đáp thông tin gì ạ?</div>
       </div>
       <div id="sfh-v-foot">
         <input type="text" id="sfh-v-input" placeholder="Nhập câu hỏi tại đây...">
@@ -123,6 +128,7 @@
       "use strict";
 
       const WORKER_URL = "https://baydep.buianhcuong2018.workers.dev/";
+      const LOCAL_STORAGE_KEY = "baydep_internal_history";
 
       /* ===== QUẢN LÝ SESSION ID ===== */
       function getSessionId() {
@@ -149,7 +155,13 @@
       const input  = document.getElementById('sfh-v-input');
 
       let isLoading = false;
+      
+      // CHÍ MẠNG: Nạp thẳng lịch sử cũ từ máy nhân viên lên ngay khi mở Web
       let chatHistory = [];
+      try {
+        chatHistory = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+      } catch (e) { chatHistory = []; }
+
       const MAX_HISTORY = 6;
 
       function trimHistory() {
@@ -159,6 +171,25 @@
         while (chatHistory.length > 0 && chatHistory[0].role !== "user") {
           chatHistory.shift();
         }
+      }
+
+      // Khôi phục lại giao diện chat cũ cho nhân viên nhìn thấy nếu có lịch sử lưu trong máy
+      function initRenderHistory() {
+        if (chatHistory.length === 0) return;
+        chatHistory.forEach(msg => {
+          if (msg.role === "user") {
+            const div = document.createElement('div');
+            div.className = 'sfh-v-row sfh-v-usr';
+            div.textContent = msg.content;
+            bodyEl.appendChild(div);
+          } else if (msg.role === "assistant") {
+            const div = document.createElement('div');
+            div.className = 'sfh-v-row sfh-v-sys';
+            div.innerHTML = renderMarkdown(msg.content);
+            bodyEl.appendChild(div);
+          }
+        });
+        bodyEl.scrollTop = bodyEl.scrollHeight;
       }
 
       function toggle() {
@@ -183,6 +214,16 @@
         return div;
       }
 
+      /* Đòn bẩy Xóa sạch lịch sử khi nhân viên bấm nút 🗑️ */
+      function clearCache() {
+        if (confirm("Anh/Chị muốn xóa lịch sử cũ để bắt đầu tra cứu ca mới?")) {
+          chatHistory = [];
+          localStorage.removeItem(LOCAL_STORAGE_KEY);
+          // Dọn sạch khung giao diện, chừa lại mỗi câu chào mặc định
+          bodyEl.innerHTML = '<div class="sfh-v-row sfh-v-sys" id="sfh-welcome-msg">Dạ em chào Anh/Chị! Em là trợ lý Siêu AI của Baydep. Em đã sẵn sàng hỗ trợ Anh/Chị. Anh/Chị cần em giải đáp thông tin gì ạ?</div>';
+        }
+      }
+
       async function send() {
         if (isLoading) return;
         const text = input.value.trim();
@@ -194,6 +235,9 @@
 
         chatHistory.push({ role: "user", content: text });
         trimHistory();
+        
+        // Cập nhật ngay vào LocalStorage để phòng ngừa rủi ro mất điện/F5 giữa chừng
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(chatHistory));
 
         const loading = addRow('sfh-v-dots');
         loading.innerHTML = '<span></span><span></span><span></span>';
@@ -213,6 +257,7 @@
             loading.remove();
             addRow('sfh-v-sys', 'Hệ thống đang bận, Anh/Chị vui lòng gửi lại giúp em nhé!');
             chatHistory.pop();
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(chatHistory));
             isLoading = false;
             return;
           }
@@ -267,22 +312,30 @@
           if (fullReply.trim() !== "") {
             chatHistory.push({ role: "assistant", content: fullReply });
             trimHistory();
+            // Khóa chốt lưu trữ toàn bộ chuỗi hội thoại sau khi stream kết thúc thành công
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(chatHistory));
           } else {
             chatHistory.pop();
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(chatHistory));
           }
 
         } catch (err) {
           if (loading && loading.parentNode) loading.remove();
           addRow('sfh-v-sys', 'Đứt mạch kết nối, Anh/Chị vui lòng gửi lại giúp em nhé!');
           chatHistory.pop();
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(chatHistory));
         }
 
         isLoading = false;
         bodyEl.scrollTop = bodyEl.scrollHeight;
       }
 
+      // Kích hoạt render lại đống tin nhắn cũ ngay khi load trang xong
+      initRenderHistory();
+
       document.getElementById('sfh-v-trigger').addEventListener('click', toggle);
       document.getElementById('sfh-v-close').addEventListener('click', toggle);
+      document.getElementById('sfh-v-clear').addEventListener('click', clearCache);
       document.getElementById('sfh-v-btn').addEventListener('click', send);
       input.addEventListener('keypress', function (e) { if (e.key === 'Enter') send(); });
     })();
